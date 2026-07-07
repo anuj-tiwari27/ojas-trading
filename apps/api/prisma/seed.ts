@@ -63,6 +63,9 @@ const dOrNull = (v: any) => (v ? new Date(v) : null);
 async function main() {
   const adminEmail = process.env.SEED_ADMIN_EMAIL ?? 'admin@ojastrading.com';
   const adminPassword = process.env.SEED_ADMIN_PASSWORD ?? 'Admin@12345';
+  // Demo products/parties/deals are opt-in. Production leaves this unset, so the
+  // app boots empty (just the admin login) and redeploys never re-add samples.
+  const seedDemo = process.env.SEED_DEMO === 'true';
 
   console.log('▶ Permissions…');
   for (const key of permissionKeys()) {
@@ -120,6 +123,15 @@ async function main() {
     update: {},
     create: { userId: admin.id, roleId: roleByKey['ADMIN'] },
   });
+
+  // Stop here in production: essentials (permissions/company/roles/admin) are in
+  // place, and no demo data is loaded. Set SEED_DEMO=true to also seed samples.
+  if (!seedDemo) {
+    console.log('\n✅ Seed complete (essentials only — no demo data).');
+    console.log(`   Company : ${company.name}`);
+    console.log(`   Login   : ${adminEmail}`);
+    return;
+  }
 
   // ── Products ──────────────────────────────────────────────────────────────
   console.log(`▶ Products (${data.products.length})…`);
