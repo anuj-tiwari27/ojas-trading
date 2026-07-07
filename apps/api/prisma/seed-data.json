@@ -1,0 +1,2156 @@
+{
+ "products": [
+  {
+   "code": "SRO",
+   "name": "Soybean Refined Oil",
+   "marketRate": 1470,
+   "unit": "MT"
+  },
+  {
+   "code": "SDO",
+   "name": "Sunflower Degummed Oil",
+   "marketRate": 0,
+   "unit": "MT"
+  },
+  {
+   "code": "CDSBO",
+   "name": "Crude Degummed SBO",
+   "marketRate": 1220,
+   "unit": "MT"
+  },
+  {
+   "code": "Ghani",
+   "name": "Ghani Oil",
+   "marketRate": 1440,
+   "unit": "MT"
+  },
+  {
+   "code": "Sarso",
+   "name": "Sarso (Mustard Oil)",
+   "marketRate": 1300,
+   "unit": "MT"
+  },
+  {
+   "code": "MDO",
+   "name": "Mustard Degummed Oil",
+   "marketRate": 1400,
+   "unit": "MT"
+  },
+  {
+   "code": "Khali",
+   "name": "Khali (Mustard Cake)",
+   "marketRate": 140,
+   "unit": "MT"
+  },
+  {
+   "code": "Mustard Cake",
+   "name": "Mustard Cake",
+   "marketRate": 140,
+   "unit": "MT"
+  },
+  {
+   "code": "Palm Olein",
+   "name": "Palm Olein (Plam Olein)",
+   "marketRate": 1278,
+   "unit": "MT"
+  },
+  {
+   "code": "Winterize RBC",
+   "name": "Winterize Rice bran Oi",
+   "marketRate": 1371,
+   "unit": "MT"
+  }
+ ],
+ "parties": [
+  {
+   "name": "Ajit Gaurav",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "BR",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Bal krishna",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Bansal Extractions and Exports",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Bihari lal Ji",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "C.P",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Century",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Century Sales Pvt Ltd.",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Divya",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Grover Oil Agro",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Gulab Oils Kota, Rajasthan",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Gupta",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Gupta Mustard Cake",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Gupta Sol",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Gupta Solvent",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "HS edible",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Halder Ventures",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Harishankar/ashokkumar",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Hinduja",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Jindal",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Jindal Oil Mills",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "K.P Solvex",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "KK",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "KK/RK",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "KP",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Kaku",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Kanpur Edible",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Kushwaha Ji",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "LN Bhopal",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Laxmi Datia",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Laxmi Narayan",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "ML Food Morena",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "ML Oil Protein , Morena",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "ML Udyog",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "MP Edible",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "MP Sales",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Maa gayatri",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Mahakaleshwar",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Mahesh",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Mahesh K",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Mahesh Kota",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Mangal Niwai",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Mantora , Kanpur",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Mathura Madho",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Mathuradas Madholal",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Mishra ji",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Mittal (RK)",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Nitin (Netaji)",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Om",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Pawan Arvind Ji",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Pawan Oils",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Prakarti",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Prakrati",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Prestige",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "R.K",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "R.S Industries",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "RDG Solvent",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "RK",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "RS Industries",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "RS tomar",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "RV",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Rahul",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Rathi",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Rishi Oil Industries",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Santosh Oil Vardha",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Shipra",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Shiv",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Shiv Bara",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Shiv Edible",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Shiv Edible, Kota Unit -2",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Shiv Kota",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Shivaji",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Shivang Morena",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Shree Mahesh Oil Product Sirohi Rajasthan",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Shree sai",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Shri Maya",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Shri Maya Agrotech",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Shri Sai",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Shri Shyam Enterprises, Kota",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Shubh",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Singhal",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Soyug",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Swami",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Tarun Oils Morena",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Vaishno devi",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Vihari",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Vihari Ji",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Vippy",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Vishnu Trading Faridabad",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "MS Neemuch",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Avni Traders, Gwalior",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  },
+  {
+   "name": "Naveen Oil",
+   "type": "BOTH",
+   "city": null,
+   "phone": null,
+   "notes": null
+  }
+ ],
+ "dispatch": [
+  {
+   "tradeDate": "2025-11-05T00:00:00",
+   "seller": "K.P",
+   "buyer": "BR",
+   "material": "CDSBO",
+   "tankerNo": "1",
+   "quantity": 60,
+   "tradeRate": 1200,
+   "marketRate": 1220,
+   "dueDate": "2025-12-10T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-11-13T00:00:00",
+   "seller": "Shiv",
+   "buyer": "Prakrati",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 120,
+   "tradeRate": 1235,
+   "marketRate": 1470,
+   "dueDate": "2025-12-05T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-11-14T00:00:00",
+   "seller": "K.P",
+   "buyer": "Gupta",
+   "material": "CDSBO",
+   "tankerNo": null,
+   "quantity": 120,
+   "tradeRate": 1235,
+   "marketRate": 1220,
+   "dueDate": "2025-12-20T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-11-14T00:00:00",
+   "seller": "Shiv",
+   "buyer": "Jindal",
+   "material": null,
+   "tankerNo": null,
+   "quantity": 60,
+   "tradeRate": 1240,
+   "marketRate": 0,
+   "dueDate": "2025-12-05T00:00:00",
+   "signal": "EXIT",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-11-15T00:00:00",
+   "seller": "BR",
+   "buyer": "CP",
+   "material": "SDO",
+   "tankerNo": null,
+   "quantity": 101,
+   "tradeRate": 1240,
+   "marketRate": 0,
+   "dueDate": "2025-12-10T00:00:00",
+   "signal": "EXIT",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-11-18T00:00:00",
+   "seller": "BR",
+   "buyer": "Vihari",
+   "material": "SDO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 0,
+   "marketRate": 0,
+   "dueDate": "2025-11-30T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-11-18T00:00:00",
+   "seller": "RK",
+   "buyer": "Swami",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 130,
+   "tradeRate": 1235,
+   "marketRate": 1470,
+   "dueDate": "2025-11-22T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-03T00:00:00",
+   "seller": "Vippy",
+   "buyer": "Shri Maya",
+   "material": "CDSBO",
+   "tankerNo": null,
+   "quantity": 150,
+   "tradeRate": 1216,
+   "marketRate": 1220,
+   "dueDate": "2025-12-20T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-03T00:00:00",
+   "seller": "RK",
+   "buyer": "Mittal",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 25,
+   "tradeRate": 1245,
+   "marketRate": 1470,
+   "dueDate": "2025-12-15T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-04T00:00:00",
+   "seller": "Shiv",
+   "buyer": "Mathura Madho",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 25,
+   "tradeRate": 1245,
+   "marketRate": 1470,
+   "dueDate": "2025-12-31T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-04T00:00:00",
+   "seller": "Shiv",
+   "buyer": "Century",
+   "material": null,
+   "tankerNo": null,
+   "quantity": 50,
+   "tradeRate": 1245,
+   "marketRate": 0,
+   "dueDate": "2025-12-31T00:00:00",
+   "signal": "EXIT",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-04T00:00:00",
+   "seller": "RK",
+   "buyer": "Pawan Arvind Ji",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1245,
+   "marketRate": 1470,
+   "dueDate": "2025-12-15T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-05T00:00:00",
+   "seller": "Shiv",
+   "buyer": "RK",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1250,
+   "marketRate": 1470,
+   "dueDate": "2025-12-20T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-05T00:00:00",
+   "seller": "Soyug",
+   "buyer": "Swami",
+   "material": null,
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1250,
+   "marketRate": 0,
+   "dueDate": "2025-12-31T00:00:00",
+   "signal": "EXIT",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-05T00:00:00",
+   "seller": "Prestige",
+   "buyer": "Vihari",
+   "material": null,
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1240,
+   "marketRate": 0,
+   "dueDate": "2025-12-30T00:00:00",
+   "signal": "EXIT",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-05T00:00:00",
+   "seller": "Prestige",
+   "buyer": "Prestige",
+   "material": null,
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1240,
+   "marketRate": 0,
+   "dueDate": "2025-12-30T00:00:00",
+   "signal": "EXIT",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-06T00:00:00",
+   "seller": "Mathura - Madho",
+   "buyer": "R.S Industries",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 60,
+   "tradeRate": 1250,
+   "marketRate": 1470,
+   "dueDate": "2025-12-30T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-08T00:00:00",
+   "seller": "Mahakaleshwar",
+   "buyer": "Gupta",
+   "material": "Mustard Cake",
+   "tankerNo": null,
+   "quantity": 0,
+   "tradeRate": 143.75,
+   "marketRate": 140,
+   "dueDate": "2025-12-18T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-09T00:00:00",
+   "seller": "Shiv",
+   "buyer": "KK",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1245,
+   "marketRate": 1470,
+   "dueDate": "2025-12-25T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-09T00:00:00",
+   "seller": "RK",
+   "buyer": "Shiv (Saurabh ji)",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 100,
+   "tradeRate": 1265,
+   "marketRate": 1470,
+   "dueDate": "2026-02-15T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-09T00:00:00",
+   "seller": "Vishnu Trading Faridabad",
+   "buyer": "ML Food Morena",
+   "material": "Mustard Cake",
+   "tankerNo": null,
+   "quantity": 90,
+   "tradeRate": 2790,
+   "marketRate": 140,
+   "dueDate": "2025-12-25T00:00:00",
+   "signal": "EXIT",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-10T00:00:00",
+   "seller": "RK",
+   "buyer": "Shivang Morena",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1240,
+   "marketRate": 1470,
+   "dueDate": "2025-12-10T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-10T00:00:00",
+   "seller": "Vippy",
+   "buyer": "Shri Maya",
+   "material": null,
+   "tankerNo": null,
+   "quantity": 120,
+   "tradeRate": 1213,
+   "marketRate": 0,
+   "dueDate": "2025-12-25T00:00:00",
+   "signal": "EXIT",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-10T00:00:00",
+   "seller": "Soyug",
+   "buyer": "Maa gayatri",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 25,
+   "tradeRate": 1245,
+   "marketRate": 1470,
+   "dueDate": "2025-12-31T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-10T00:00:00",
+   "seller": "Shiv Bara",
+   "buyer": "Rathi",
+   "material": "MDO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 137.5,
+   "marketRate": 1400,
+   "dueDate": "2025-12-17T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-11T00:00:00",
+   "seller": "Prakrati",
+   "buyer": "Jindal Oil Mills",
+   "material": "SDO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1235,
+   "marketRate": 0,
+   "dueDate": "2025-12-18T00:00:00",
+   "signal": "EXIT",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-11T00:00:00",
+   "seller": "Vippy",
+   "buyer": "Gupta Solvent",
+   "material": "CDSBO",
+   "tankerNo": null,
+   "quantity": 240,
+   "tradeRate": 1216,
+   "marketRate": 1220,
+   "dueDate": "2025-12-25T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-11T00:00:00",
+   "seller": "Vippy",
+   "buyer": "Gupta Sol",
+   "material": "CDSBO",
+   "tankerNo": null,
+   "quantity": 250,
+   "tradeRate": 1218,
+   "marketRate": 1220,
+   "dueDate": "2025-12-25T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-11T00:00:00",
+   "seller": "Divya",
+   "buyer": "KK",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1247,
+   "marketRate": 1470,
+   "dueDate": "2025-12-18T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-11T00:00:00",
+   "seller": "KP",
+   "buyer": "BR",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 120,
+   "tradeRate": 1225,
+   "marketRate": 1470,
+   "dueDate": "2025-12-25T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-11T00:00:00",
+   "seller": "RS tomar",
+   "buyer": "Gupta Sol",
+   "material": "MDO",
+   "tankerNo": null,
+   "quantity": 0,
+   "tradeRate": 2800,
+   "marketRate": 1400,
+   "dueDate": "2025-12-25T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-11T00:00:00",
+   "seller": "Vippy",
+   "buyer": "BR",
+   "material": "CDSBO",
+   "tankerNo": null,
+   "quantity": 250,
+   "tradeRate": 1222,
+   "marketRate": 1220,
+   "dueDate": "2025-12-25T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-11T00:00:00",
+   "seller": "Shiv",
+   "buyer": "KK/RK",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 80,
+   "tradeRate": 1255,
+   "marketRate": 1470,
+   "dueDate": "2025-12-31T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-12T00:00:00",
+   "seller": "Prestige",
+   "buyer": "Om",
+   "material": "SDO",
+   "tankerNo": null,
+   "quantity": 100,
+   "tradeRate": 1235,
+   "marketRate": 0,
+   "dueDate": "2025-12-21T00:00:00",
+   "signal": "EXIT",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-12T00:00:00",
+   "seller": "Prestige",
+   "buyer": "Vihari Ji",
+   "material": "SDO",
+   "tankerNo": null,
+   "quantity": 100,
+   "tradeRate": 1235,
+   "marketRate": 0,
+   "dueDate": "2025-12-21T00:00:00",
+   "signal": "EXIT",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-12T00:00:00",
+   "seller": "Mahesh",
+   "buyer": "Shubh",
+   "material": "MDO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1375,
+   "marketRate": 1400,
+   "dueDate": "2025-12-31T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-13T00:00:00",
+   "seller": "Singhal",
+   "buyer": "Pawan Arvind Ji",
+   "material": null,
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1245,
+   "marketRate": 0,
+   "dueDate": "2025-12-16T00:00:00",
+   "signal": "EXIT",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-13T00:00:00",
+   "seller": "Prestige",
+   "buyer": "Rishi",
+   "material": null,
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 0,
+   "marketRate": 0,
+   "dueDate": "2025-12-23T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-13T00:00:00",
+   "seller": "Mahesh K",
+   "buyer": "Shri Sai",
+   "material": "MDO",
+   "tankerNo": null,
+   "quantity": 10,
+   "tradeRate": 139,
+   "marketRate": 1400,
+   "dueDate": null,
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-13T00:00:00",
+   "seller": "RD Kota",
+   "buyer": "Shri Sai",
+   "material": "Ghani",
+   "tankerNo": null,
+   "quantity": 15,
+   "tradeRate": 144,
+   "marketRate": 1440,
+   "dueDate": "2025-12-23T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-13T00:00:00",
+   "seller": "Praakrati",
+   "buyer": "MP Edible",
+   "material": "Ghani",
+   "tankerNo": null,
+   "quantity": 60,
+   "tradeRate": 143.15,
+   "marketRate": 1440,
+   "dueDate": null,
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-13T00:00:00",
+   "seller": "Mittal",
+   "buyer": "Shri Maya",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 25,
+   "tradeRate": 1243,
+   "marketRate": 1470,
+   "dueDate": "2025-12-20T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-13T00:00:00",
+   "seller": "Mahesh K",
+   "buyer": "Mittal",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 25,
+   "tradeRate": 1240,
+   "marketRate": 1470,
+   "dueDate": "2025-12-20T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-15T00:00:00",
+   "seller": "Vaishno devi",
+   "buyer": "Laxmi Narayan",
+   "material": "MDO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1365,
+   "marketRate": 1400,
+   "dueDate": "2025-12-19T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-15T00:00:00",
+   "seller": "Prestige",
+   "buyer": "Jindal",
+   "material": "SDO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1235,
+   "marketRate": 0,
+   "dueDate": "2025-12-31T00:00:00",
+   "signal": "EXIT",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-15T00:00:00",
+   "seller": "Santosh Oil Vardha",
+   "buyer": "Grover Oil Agro",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1240,
+   "marketRate": 1470,
+   "dueDate": null,
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-15T00:00:00",
+   "seller": "Shivang Morena",
+   "buyer": "Gupta Mustard Cake",
+   "material": "Mustard Cake",
+   "tankerNo": null,
+   "quantity": 0,
+   "tradeRate": 2820,
+   "marketRate": 140,
+   "dueDate": null,
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-15T00:00:00",
+   "seller": "RD Kota",
+   "buyer": "Om",
+   "material": "Ghani",
+   "tankerNo": null,
+   "quantity": 25,
+   "tradeRate": 144,
+   "marketRate": 1440,
+   "dueDate": null,
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-15T00:00:00",
+   "seller": "RK",
+   "buyer": "Laxmi Datia",
+   "material": null,
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 0,
+   "marketRate": 0,
+   "dueDate": null,
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-16T00:00:00",
+   "seller": "Prestige",
+   "buyer": "Shivaji",
+   "material": "SDO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1235,
+   "marketRate": 0,
+   "dueDate": "2025-12-23T00:00:00",
+   "signal": "EXIT",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-16T00:00:00",
+   "seller": "Mahesh",
+   "buyer": "Mittal (RK)",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1245,
+   "marketRate": 1470,
+   "dueDate": "2025-12-31T00:00:00",
+   "signal": "EXIT",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-17T00:00:00",
+   "seller": "Ajit Gaurav",
+   "buyer": "Shubh",
+   "material": null,
+   "tankerNo": null,
+   "quantity": 0,
+   "tradeRate": 132.6,
+   "marketRate": 0,
+   "dueDate": null,
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-17T00:00:00",
+   "seller": "HS edible",
+   "buyer": "RS Industries",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 12,
+   "tradeRate": 1260,
+   "marketRate": 1470,
+   "dueDate": null,
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-17T00:00:00",
+   "seller": "BR",
+   "buyer": "Jindal",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1250,
+   "marketRate": 1470,
+   "dueDate": null,
+   "signal": "EXIT",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-18T00:00:00",
+   "seller": "RK",
+   "buyer": "Hinduja",
+   "material": null,
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1245,
+   "marketRate": 0,
+   "dueDate": null,
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-18T00:00:00",
+   "seller": "Swami",
+   "buyer": "Rahul",
+   "material": null,
+   "tankerNo": null,
+   "quantity": 0,
+   "tradeRate": 132.9,
+   "marketRate": 0,
+   "dueDate": null,
+   "signal": "EXIT",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-18T00:00:00",
+   "seller": "Mahesh",
+   "buyer": "Mittal",
+   "material": null,
+   "tankerNo": null,
+   "quantity": 50,
+   "tradeRate": 1255,
+   "marketRate": 0,
+   "dueDate": "2026-01-31T00:00:00",
+   "signal": "EXIT",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-18T00:00:00",
+   "seller": "Mahesh",
+   "buyer": "Maa gayatri",
+   "material": null,
+   "tankerNo": null,
+   "quantity": 60,
+   "tradeRate": 1255,
+   "marketRate": 0,
+   "dueDate": "2026-01-31T00:00:00",
+   "signal": "EXIT",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-18T00:00:00",
+   "seller": "Mahesh",
+   "buyer": "Maa gayatri",
+   "material": null,
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1255,
+   "marketRate": 0,
+   "dueDate": "2026-01-31T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-18T00:00:00",
+   "seller": "Shiv",
+   "buyer": "RK",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 80,
+   "tradeRate": 1255,
+   "marketRate": 1470,
+   "dueDate": "2026-01-10T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-12-18T00:00:00",
+   "seller": "Shiv",
+   "buyer": "RK",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 40,
+   "tradeRate": 1255,
+   "marketRate": 1470,
+   "dueDate": "2026-01-10T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2026-03-23T00:00:00",
+   "seller": "MS Neemuch",
+   "buyer": "Laxmi Narayan",
+   "material": "MDO",
+   "tankerNo": null,
+   "quantity": 40,
+   "tradeRate": 1435,
+   "marketRate": 1400,
+   "dueDate": null,
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2025-03-23T00:00:00",
+   "seller": "Mathura Madho",
+   "buyer": "Soyug",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1485,
+   "marketRate": 1470,
+   "dueDate": null,
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2026-03-23T00:00:00",
+   "seller": "MS Neemuch",
+   "buyer": "Manoj Oil Morena",
+   "material": "MDO",
+   "tankerNo": null,
+   "quantity": 40,
+   "tradeRate": 1445,
+   "marketRate": 0,
+   "dueDate": "2026-04-10T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2026-03-23T00:00:00",
+   "seller": null,
+   "buyer": null,
+   "material": null,
+   "tankerNo": null,
+   "quantity": 0,
+   "tradeRate": 0,
+   "marketRate": 0,
+   "dueDate": "2026-04-15T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2026-03-23T00:00:00",
+   "seller": "Singhal",
+   "buyer": "RK",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1490,
+   "marketRate": 1470,
+   "dueDate": "2026-04-07T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2026-03-23T00:00:00",
+   "seller": "Vippy",
+   "buyer": "KK/RK",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1515,
+   "marketRate": 1470,
+   "dueDate": "2026-04-10T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2026-03-23T00:00:00",
+   "seller": "Kanpur Edible",
+   "buyer": "Avni Traders, Gwalior",
+   "material": "Winterize RBO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1371,
+   "marketRate": 0,
+   "dueDate": "2026-04-10T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2026-03-23T00:00:00",
+   "seller": "K.M Morena",
+   "buyer": "Naveen Oil",
+   "material": "Ghani",
+   "tankerNo": null,
+   "quantity": 25,
+   "tradeRate": 1525,
+   "marketRate": 1440,
+   "dueDate": "2026-04-01T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2026-03-23T00:00:00",
+   "seller": "KK/RK",
+   "buyer": "LN Bhopal",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1508,
+   "marketRate": 1470,
+   "dueDate": "2026-04-07T00:00:00",
+   "signal": "HOLD",
+   "remarks": "Vippy"
+  },
+  {
+   "tradeDate": "2026-03-24T00:00:00",
+   "seller": "Shiv Kota",
+   "buyer": "Prakash Prod. Ghani",
+   "material": "Ghani",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 150,
+   "marketRate": 1440,
+   "dueDate": "2026-04-30T00:00:00",
+   "signal": "HOLD",
+   "remarks": "Direcct"
+  },
+  {
+   "tradeDate": "2026-03-24T00:00:00",
+   "seller": "R.K",
+   "buyer": null,
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1475,
+   "marketRate": 1470,
+   "dueDate": null,
+   "signal": "HOLD",
+   "remarks": "Soyug Delivery"
+  },
+  {
+   "tradeDate": "2026-03-24T00:00:00",
+   "seller": "Mathura Madho",
+   "buyer": "Mittal (RK)",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1475,
+   "marketRate": 1470,
+   "dueDate": "2026-04-30T00:00:00",
+   "signal": "HOLD",
+   "remarks": "Kota Delivery"
+  },
+  {
+   "tradeDate": "2026-03-24T00:00:00",
+   "seller": "Ruchi Gwl",
+   "buyer": "Shivaji",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 60,
+   "tradeRate": 1475,
+   "marketRate": 1470,
+   "dueDate": null,
+   "signal": "HOLD",
+   "remarks": "Soyug Delivery"
+  },
+  {
+   "tradeDate": "2026-03-25T00:00:00",
+   "seller": "Mahakaleshwar",
+   "buyer": "BR",
+   "material": "Khali",
+   "tankerNo": null,
+   "quantity": 0,
+   "tradeRate": 2875,
+   "marketRate": 140,
+   "dueDate": "2026-04-05T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2026-03-25T00:00:00",
+   "seller": "Mahesh",
+   "buyer": "Shiv Kota",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 50,
+   "tradeRate": 1470,
+   "marketRate": 1470,
+   "dueDate": null,
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2026-03-25T00:00:00",
+   "seller": "Ms Neemuch",
+   "buyer": "LN Bhopal",
+   "material": "MDO",
+   "tankerNo": null,
+   "quantity": 60,
+   "tradeRate": 1420,
+   "marketRate": 1400,
+   "dueDate": "2026-04-21T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2026-03-26T00:00:00",
+   "seller": null,
+   "buyer": null,
+   "material": null,
+   "tankerNo": null,
+   "quantity": 0,
+   "tradeRate": 0,
+   "marketRate": 0,
+   "dueDate": null,
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2026-06-01T00:00:00",
+   "seller": "Singhal",
+   "buyer": "RS",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 25,
+   "tradeRate": 1470,
+   "marketRate": 1470,
+   "dueDate": null,
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2026-05-30T00:00:00",
+   "seller": "CK Gwalior",
+   "buyer": "Swami",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1475,
+   "marketRate": 0,
+   "dueDate": "2026-06-15T00:00:00",
+   "signal": "HOLD",
+   "remarks": "If lifted from Bundo , rs 10 to be discounted"
+  },
+  {
+   "tradeDate": "2026-05-30T00:00:00",
+   "seller": "CK Gwalior",
+   "buyer": "CP Industries",
+   "material": "SDO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1465,
+   "marketRate": 0,
+   "dueDate": "2026-06-10T00:00:00",
+   "signal": "HOLD",
+   "remarks": "Shiv kota Delivery"
+  },
+  {
+   "tradeDate": "2026-05-30T00:00:00",
+   "seller": "Pramod Traders",
+   "buyer": "Pawan Arvind/ Aishwarya",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 60,
+   "tradeRate": 1480,
+   "marketRate": 0,
+   "dueDate": "2026-06-30T00:00:00",
+   "signal": "HOLD",
+   "remarks": "kota Delivery"
+  },
+  {
+   "tradeDate": "2026-05-30T00:00:00",
+   "seller": "Century",
+   "buyer": "Rishab Enterprises , Morena",
+   "material": "Ghani",
+   "tankerNo": null,
+   "quantity": 90,
+   "tradeRate": 158.25,
+   "marketRate": 0,
+   "dueDate": "2026-06-09T00:00:00",
+   "signal": "HOLD",
+   "remarks": "Adani Delivery"
+  },
+  {
+   "tradeDate": "2026-05-30T00:00:00",
+   "seller": "Avni Traders",
+   "buyer": "Laxmi Narayan, Indore",
+   "material": "Ghani",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 157.5,
+   "marketRate": 0,
+   "dueDate": "2026-06-05T00:00:00",
+   "signal": "HOLD",
+   "remarks": "Shiv kota Delivery"
+  },
+  {
+   "tradeDate": "2026-05-30T00:00:00",
+   "seller": "Ms Neemuch",
+   "buyer": "Laxmi Narayan, Indore",
+   "material": "MDO",
+   "tankerNo": null,
+   "quantity": 60,
+   "tradeRate": 1510,
+   "marketRate": 0,
+   "dueDate": "2026-06-10T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2026-06-01T00:00:00",
+   "seller": "Shiv Kota",
+   "buyer": "KK",
+   "material": "SDO",
+   "tankerNo": null,
+   "quantity": 60,
+   "tradeRate": 1460,
+   "marketRate": 1455,
+   "dueDate": null,
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2026-06-02T00:00:00",
+   "seller": "Avni Traders",
+   "buyer": "Om",
+   "material": "RBO",
+   "tankerNo": null,
+   "quantity": 60,
+   "tradeRate": 1430,
+   "marketRate": 1410,
+   "dueDate": "2026-06-05T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2026-06-02T00:00:00",
+   "seller": "Kanpur Edible",
+   "buyer": "Avni Traders",
+   "material": "RBO",
+   "tankerNo": null,
+   "quantity": 30,
+   "tradeRate": 1440,
+   "marketRate": 1440,
+   "dueDate": "2026-06-12T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2026-06-02T00:00:00",
+   "seller": "Mishra traders",
+   "buyer": "KBL",
+   "material": "Cake",
+   "tankerNo": null,
+   "quantity": 0,
+   "tradeRate": 3360,
+   "marketRate": 0,
+   "dueDate": "2026-06-12T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  },
+  {
+   "tradeDate": "2026-06-02T00:00:00",
+   "seller": "RK",
+   "buyer": "KK",
+   "material": "SRO",
+   "tankerNo": null,
+   "quantity": 1475,
+   "tradeRate": 1470,
+   "marketRate": 0,
+   "dueDate": "2026-06-12T00:00:00",
+   "signal": "HOLD",
+   "remarks": null
+  }
+ ],
+ "direct": [
+  {
+   "dealNo": "DD-001",
+   "date": "2026-05-26T00:00:00",
+   "side": "BUY",
+   "party": "Gupta Solvent",
+   "material": "CDSBO",
+   "quantity": 120,
+   "rate": 1216,
+   "marketRate": 1470,
+   "dueDate": "2026-06-10T00:00:00",
+   "paymentStatus": "PENDING",
+   "tankerNo": null,
+   "dealMode": "DIRECT",
+   "brokerName": "Self",
+   "status": "OPEN",
+   "remarks": null
+  },
+  {
+   "dealNo": "DD-002",
+   "date": "2026-05-28T00:00:00",
+   "side": "SELL",
+   "party": "Shri Maya",
+   "material": "SRO",
+   "quantity": 80,
+   "rate": 1255,
+   "marketRate": 1270,
+   "dueDate": "2026-06-12T00:00:00",
+   "paymentStatus": "PENDING",
+   "tankerNo": null,
+   "dealMode": "DIRECT",
+   "brokerName": "Self",
+   "status": "OPEN",
+   "remarks": null
+  },
+  {
+   "dealNo": "DD-003",
+   "date": "2026-05-30T00:00:00",
+   "side": "BUY",
+   "party": "Jindal Oil Mills",
+   "material": "SDO",
+   "quantity": 60,
+   "rate": 1235,
+   "marketRate": 1234,
+   "dueDate": "2026-06-14T00:00:00",
+   "paymentStatus": "PENDING",
+   "tankerNo": null,
+   "dealMode": "DIRECT",
+   "brokerName": "Self",
+   "status": "OPEN",
+   "remarks": null
+  }
+ ],
+ "degum": [
+  {
+   "dealNo": "DG-732",
+   "dealDate": "2026-03-11T00:00:00",
+   "material": "CDSBO",
+   "shipmentMonth": "2026-04-01T00:00:00",
+   "originPort": "Kandla",
+   "buyer": "Shiv Edibles",
+   "seller": "Mahesh Kandla",
+   "quantity": 250,
+   "buyRate": 1118,
+   "sellRate": 1118,
+   "brokerageRate": 50,
+   "shipNameReceived": true,
+   "vessel": null,
+   "paymentDueDate": "2026-06-10T00:00:00",
+   "paymentStatus": "PENDING",
+   "status": "SHIPMENT_CONFIRMED",
+   "remarks": "Payment due tracking"
+  },
+  {
+   "dealNo": "DG-701",
+   "dealDate": null,
+   "material": "CDSBO",
+   "shipmentMonth": "2026-04-01T00:00:00",
+   "originPort": "Kandla",
+   "buyer": "Halder Ventures Pvt Ltd",
+   "seller": "Shiv Edibles",
+   "quantity": 250,
+   "buyRate": 1063,
+   "sellRate": 1063,
+   "brokerageRate": 50,
+   "shipNameReceived": true,
+   "vessel": "BOW HARMONY OR SUB",
+   "paymentDueDate": "2026-05-28T00:00:00",
+   "paymentStatus": "PENDING",
+   "status": "SHIPMENT_CONFIRMED",
+   "remarks": "EXCHANGE RATE FIXED ON 21.05.26"
+  },
+  {
+   "dealNo": "DG-E-76",
+   "dealDate": "2026-05-21T00:00:00",
+   "material": "CDSBO",
+   "shipmentMonth": "Jul-25",
+   "originPort": "Kandla",
+   "buyer": "Shiv Edibles",
+   "seller": "Halder Ventures",
+   "quantity": 250,
+   "buyRate": 1228,
+   "sellRate": 1228,
+   "brokerageRate": 50,
+   "shipNameReceived": true,
+   "vessel": "Old Parker 3, 6",
+   "paymentDueDate": null,
+   "paymentStatus": "PAID",
+   "status": "CLOSED",
+   "remarks": "FINAL LIFTING"
+  },
+  {
+   "dealNo": "DG-E53",
+   "dealDate": "2026-05-06T00:00:00",
+   "material": "CDSBO",
+   "shipmentMonth": "April Shipment",
+   "originPort": "Kandla",
+   "buyer": "ML UDYOG",
+   "seller": "Shree Shyam",
+   "quantity": 250,
+   "buyRate": 1225,
+   "sellRate": 1225,
+   "brokerageRate": 50,
+   "shipNameReceived": true,
+   "vessel": "Bow agathe",
+   "paymentDueDate": null,
+   "paymentStatus": "PENDING",
+   "status": "OPEN",
+   "remarks": "Shipment next month"
+  },
+  {
+   "dealNo": "DG-E89",
+   "dealDate": "2026-05-27T00:00:00",
+   "material": "CDSBO",
+   "shipmentMonth": "2025-07-01T00:00:00",
+   "originPort": "Kandla",
+   "buyer": "Shree Shyam",
+   "seller": "Halder Ventures",
+   "quantity": 250,
+   "buyRate": 1222,
+   "sellRate": 1222,
+   "brokerageRate": 50,
+   "shipNameReceived": false,
+   "vessel": null,
+   "paymentDueDate": "2026-06-08T00:00:00",
+   "paymentStatus": "PENDING",
+   "status": "SHIPMENT_CONFIRMED",
+   "remarks": "Chain: Vippy→BR"
+  }
+ ],
+ "chain": [
+  {
+   "chainId": "SC-001",
+   "linkedDealNo": "DG-001",
+   "shipmentMonth": "Jun-25",
+   "vessel": "MV Sunrise",
+   "shipNameGivenDate": "2026-05-23T00:00:00",
+   "overseasSeller": "Overseas Co. A",
+   "chainParty1": "Vippy",
+   "chainParty2": "Shri Maya",
+   "chainParty3": null,
+   "finalBuyer": "Kanpur Edible",
+   "material": "CDSBO",
+   "quantity": 150,
+   "paymentStatus": "PAID"
+  },
+  {
+   "chainId": "SC-002",
+   "linkedDealNo": "DG-002",
+   "shipmentMonth": "Jul-25",
+   "vessel": "MV Pacific Star",
+   "shipNameGivenDate": "2026-05-29T00:00:00",
+   "overseasSeller": "Overseas Co. B",
+   "chainParty1": "BR",
+   "chainParty2": "Gupta Sol",
+   "chainParty3": "Prestige",
+   "finalBuyer": "Rishi Oils",
+   "material": "SDO",
+   "quantity": 200,
+   "paymentStatus": "PAYMENT_DUE"
+  },
+  {
+   "chainId": "SC-003",
+   "linkedDealNo": "DG-005",
+   "shipmentMonth": "Jun-25",
+   "vessel": "MV Eastern",
+   "shipNameGivenDate": "2026-05-30T00:00:00",
+   "overseasSeller": "Overseas Co. C",
+   "chainParty1": "Prakrati",
+   "chainParty2": "Jindal",
+   "chainParty3": null,
+   "finalBuyer": "End Buyer",
+   "material": "SDO",
+   "quantity": 60,
+   "paymentStatus": "PAYMENT_DUE"
+  },
+  {
+   "chainId": "SC-004",
+   "linkedDealNo": "DG-003",
+   "shipmentMonth": "Jul-25",
+   "vessel": null,
+   "shipNameGivenDate": null,
+   "overseasSeller": "Overseas Co. A",
+   "chainParty1": "Kanpur Edible",
+   "chainParty2": null,
+   "chainParty3": null,
+   "finalBuyer": null,
+   "material": "CDSBO",
+   "quantity": 100,
+   "paymentStatus": "AWAITING_SHIP_NAME"
+  }
+ ],
+ "tanker": [
+  {
+   "orderId": "ORD-001",
+   "buyer": "BR Oils",
+   "seller": "Jindal",
+   "material": "SDO",
+   "tankerNo": "2829",
+   "tareWtKg": 16500,
+   "grossWtKg": 56210,
+   "contractQty": 250,
+   "rate": 1201,
+   "status": "DELIVERED"
+  },
+  {
+   "orderId": "ORD-001",
+   "buyer": "BR Oils",
+   "seller": "Jindal",
+   "material": "SDO",
+   "tankerNo": "4629",
+   "tareWtKg": 16500,
+   "grossWtKg": 55910,
+   "contractQty": 250,
+   "rate": 1201,
+   "status": "DELIVERED"
+  },
+  {
+   "orderId": "ORD-001",
+   "buyer": "BR Oils",
+   "seller": "Jindal",
+   "material": "SDO",
+   "tankerNo": "2792",
+   "tareWtKg": 16500,
+   "grossWtKg": 56350,
+   "contractQty": 250,
+   "rate": 1201,
+   "status": "DELIVERED"
+  },
+  {
+   "orderId": "ORD-001",
+   "buyer": "BR Oils",
+   "seller": "Jindal",
+   "material": "SDO",
+   "tankerNo": "1945",
+   "tareWtKg": 16500,
+   "grossWtKg": 56460,
+   "contractQty": 250,
+   "rate": 1201,
+   "status": "DELIVERED"
+  },
+  {
+   "orderId": "ORD-001",
+   "buyer": "BR Oils",
+   "seller": "Jindal",
+   "material": "SDO",
+   "tankerNo": "1730",
+   "tareWtKg": 16500,
+   "grossWtKg": 56280,
+   "contractQty": 250,
+   "rate": 1201,
+   "status": "DELIVERED"
+  }
+ ]
+}

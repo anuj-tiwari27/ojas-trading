@@ -1,0 +1,472 @@
+// ═══════════════════════════════════════════════════════════════════════════
+//  Ojas Trading — PostgreSQL schema (Prisma)
+//
+//  Modeled directly on the client's edible-oil trading workbook + PRD v1.0.
+//  Domain: broker/principal MTM deal tracking.
+//
+//  Conventions
+//  -----------
+//  • Multi-tenant: business tables carry `companyId`.
+//  • Soft delete: `deletedAt` (NULL = active). Never hard-delete.
+//  • Audit columns: createdAt / updatedAt / createdById / updatedById.
+//  • Money: Decimal(18,4); Quantity: Decimal(18,3); Weight(kg): Decimal(18,3).
+//  • Stored rollups (tradeValue/marketValue/mtm/...) are recomputed by the
+//    service layer on write and whenever a product's market rate changes.
+//  • `daysLeft` is NOT stored (it changes daily) — computed on read.
+// ═══════════════════════════════════════════════════════════════════════════
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+//  ENUMS
+// ─────────────────────────────────────────────────────────────────────────
+
+enum PartyType {
+  BUYER
+  SELLER
+  BOTH
+}
+
+enum DealSide {
+  BUY
+  SELL
+}
+
+// Direct Deals (Module C)
+enum DirectDealStatus {
+  OPEN
+  CLOSED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PARTIAL
+  PAID
+}
+
+// Degum Deals (Module D)
+enum DegumStatus {
+  OPEN
+  SHIPMENT_CONFIRMED
+  DELIVERED
+  CLOSED
+}
+
+enum AuditAction {
+  LOGIN
+  LOGOUT
+  CREATE
+  UPDATE
+  DELETE
+  RESTORE
+  DOWNLOAD
+  EXPORT
+  IMPORT
+  APPROVE
+  REJECT
+  PASSWORD_CHANGE
+  SETTINGS_CHANGE
+  PERMISSION_CHANGE
+  RATE_UPDATE
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  TENANT / ORG
+// ═══════════════════════════════════════════════════════════════════════════
+
+model Company {
+  id          String    @id @default(cuid())
+  name        String
+  legalName   String?
+  gstin       String?   @unique
+  pan         String?
+  cin         String?
+  email       String?
+  phone       String?
+  addressLine String?
+  city        String?
+  state       String?
+  pincode     String?
+  country     String    @default("India")
+  logoKey     String?
+  financialYearStartMonth Int @default(4)
+  isActive    Boolean   @default(true)
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  branches        Branch[]
+  users           User[]
+  roles           Role[]
+  parties         Party[]
+  products        Product[]
+  directDeals     DirectDeal[]
+  degumDeals      DegumDeal[]
+  numberSequences NumberSequence[]
+  settings        Setting[]
+  auditLogs       AuditLog[]
+
+  @@index([name])
+  @@index([deletedAt])
+  @@map("companies")
+}
+
+model Branch {
+  id          String    @id @default(cuid())
+  companyId   String
+  company     Company   @relation(fields: [companyId], references: [id])
+  code        String
+  name        String
+  addressLine String?
+  city        String?
+  state       String?
+  contactPerson String?
+  phone       String?
+  email       String?
+  isActive    Boolean   @default(true)
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  users       User[]
+
+  @@unique([companyId, code])
+  @@index([companyId, deletedAt])
+  @@map("branches")
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  AUTH / RBAC
+// ═══════════════════════════════════════════════════════════════════════════
+
+model User {
+  id            String    @id @default(cuid())
+  companyId     String
+  company       Company   @relation(fields: [companyId], references: [id])
+  branchId      String?
+  branch        Branch?   @relation(fields: [branchId], references: [id])
+
+  email         String
+  passwordHash  String
+  fullName      String
+  phone         String?
+  avatarKey     String?
+  isActive      Boolean   @default(true)
+  isSuperAdmin  Boolean   @default(false)
+  lastLoginAt   DateTime?
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  roles         UserRole[]
+  refreshTokens RefreshToken[]
+
+  @@unique([companyId, email])
+  @@index([email])
+  @@index([companyId, deletedAt])
+  @@map("users")
+}
+
+model RefreshToken {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash   String    @unique
+  userAgent   String?
+  ipAddress   String?
+  expiresAt   DateTime
+  revokedAt   DateTime?
+  createdAt   DateTime  @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("refresh_tokens")
+}
+
+model Role {
+  id          String    @id @default(cuid())
+  companyId   String
+  company     Company   @relation(fields: [companyId], references: [id])
+  key         String
+  name        String
+  description String?
+  isSystem    Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  permissions RolePermission[]
+  users       UserRole[]
+
+  @@unique([companyId, key])
+  @@index([companyId, deletedAt])
+  @@map("roles")
+}
+
+model Permission {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  resource    String
+  action      String
+  description String?
+
+  roles       RolePermission[]
+
+  @@index([resource])
+  @@map("permissions")
+}
+
+model RolePermission {
+  roleId       String
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permissionId String
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+  @@index([permissionId])
+  @@map("role_permissions")
+}
+
+model UserRole {
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  roleId String
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+  @@index([roleId])
+  @@map("user_roles")
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  MASTER DATA — Party (Module H) & Product (Module I)
+// ═══════════════════════════════════════════════════════════════════════════
+
+model Party {
+  id            String    @id @default(cuid())
+  companyId     String
+  company       Company   @relation(fields: [companyId], references: [id])
+  code          String?
+  name          String
+  type          PartyType @default(BOTH)
+  contactPerson String?
+  phone         String?
+  email         String?
+  address       String?
+  city          String? // City / Region
+  gstin         String?
+  notes         String?
+  isSelf        Boolean   @default(false) // our own firm — trades reflect as "self" holdings
+  isActive      Boolean   @default(true)
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  // deal relations — every deal is between a Main party and a Self firm
+  directAsMain  DirectDeal[] @relation("DirectMain")
+  directAsSelf  DirectDeal[] @relation("DirectSelf")
+  degumAsMain   DegumDeal[]  @relation("DegumMain")
+  degumAsSelf   DegumDeal[]  @relation("DegumSelf")
+
+  @@unique([companyId, name])
+  @@index([companyId, deletedAt])
+  @@index([companyId, type])
+  @@index([companyId, isSelf])
+  @@map("parties")
+}
+
+model Product {
+  id            String    @id @default(cuid())
+  companyId     String
+  company       Company   @relation(fields: [companyId], references: [id])
+  code          String // SRO, SDO, CDSBO, MDO ...
+  name          String
+  unit          String    @default("MT")
+  marketRate    Decimal   @default(0) @db.Decimal(18, 4) // ₹/MT, updated daily
+  marketRateUpdatedAt DateTime?
+  notes         String?
+  isActive      Boolean   @default(true)
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  directDeals     DirectDeal[]
+  degumDeals      DegumDeal[]
+
+  @@unique([companyId, code])
+  @@index([companyId, deletedAt])
+  @@map("products")
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  MODULE C — DIRECT DEALS (principal buy/sell)
+//   Two parties only: a Main party (the external counterparty) and our Self firm.
+//   `side` is from the Self firm's perspective — BUY = Self buys from Main.
+//   Value = Qty × Rate;  MTM = (Market Rate − Rate) × Qty
+//   Brokerage Total = Qty × Brokerage/MT  (per-deal, per-ton)
+// ═══════════════════════════════════════════════════════════════════════════
+
+model DirectDeal {
+  id          String    @id @default(cuid())
+  companyId   String
+  company     Company   @relation(fields: [companyId], references: [id])
+  dealNo      String
+  date        DateTime  @default(now())
+  side        DealSide
+
+  mainPartyId String?
+  mainParty   Party?    @relation("DirectMain", fields: [mainPartyId], references: [id])
+  selfPartyId String?
+  selfParty   Party?    @relation("DirectSelf", fields: [selfPartyId], references: [id])
+  productId   String?
+  product     Product?  @relation(fields: [productId], references: [id])
+
+  quantity    Decimal   @db.Decimal(18, 3)
+  rate        Decimal   @db.Decimal(18, 4)
+  value       Decimal   @default(0) @db.Decimal(18, 4) // ƒ
+  marketRate  Decimal   @default(0) @db.Decimal(18, 4)
+  mtm         Decimal   @default(0) @db.Decimal(18, 4) // ƒ
+  brokerageRate  Decimal @default(0) @db.Decimal(18, 4) // ₹/MT
+  brokerageTotal Decimal @default(0) @db.Decimal(18, 4) // ƒ = Qty × brokerageRate
+
+  dueDate       DateTime?
+  paymentStatus PaymentStatus    @default(PENDING)
+  tankerNo      String?
+  status        DirectDealStatus @default(OPEN)
+  remarks       String?
+
+  createdById String?
+  updatedById String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  @@unique([companyId, dealNo])
+  @@index([companyId, deletedAt])
+  @@index([companyId, date])
+  @@index([companyId, side])
+  @@index([companyId, status])
+  @@index([companyId, mainPartyId])
+  @@map("direct_deals")
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  MODULE D — DEGUM DEALS (import / shipment-linked)
+//   Buy Value = Qty × Buy Rate; Sell Value = Qty × Sell Rate
+//   Gross Margin = Sell Value − Buy Value; Brokerage Total = Qty × Brokerage/MT
+//   Payment Due = Vessel/Ship date + configurable days
+// ═══════════════════════════════════════════════════════════════════════════
+
+model DegumDeal {
+  id            String    @id @default(cuid())
+  companyId     String
+  company       Company   @relation(fields: [companyId], references: [id])
+  dealNo        String
+  dealDate      DateTime?
+  productId     String?
+  product       Product?  @relation(fields: [productId], references: [id])
+  shipmentMonth String? // "Jul-25", "April Shipment", a date string
+  originPort    String?
+
+  // Two parties only: Main party (external) + our Self firm. Self sits in the
+  // middle, buying at buyRate and selling onward at sellRate.
+  mainPartyId   String?
+  mainParty     Party?    @relation("DegumMain", fields: [mainPartyId], references: [id])
+  selfPartyId   String?
+  selfParty     Party?    @relation("DegumSelf", fields: [selfPartyId], references: [id])
+
+  quantity      Decimal   @db.Decimal(18, 3)
+  buyRate       Decimal   @db.Decimal(18, 4)
+  sellRate      Decimal   @db.Decimal(18, 4)
+  buyValue      Decimal   @default(0) @db.Decimal(18, 4) // ƒ
+  sellValue     Decimal   @default(0) @db.Decimal(18, 4) // ƒ
+  grossMargin   Decimal   @default(0) @db.Decimal(18, 4) // ƒ
+  brokerageRate Decimal   @default(0) @db.Decimal(18, 4) // ₹/MT
+  brokerageTotal Decimal  @default(0) @db.Decimal(18, 4) // ƒ
+
+  shipNameReceived Boolean @default(false)
+  vessel        String?
+  paymentDueDate DateTime?
+  paymentStatus PaymentStatus @default(PENDING)
+  status        DegumStatus   @default(OPEN)
+  remarks       String?
+
+  createdById String?
+  updatedById String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  @@unique([companyId, dealNo])
+  @@index([companyId, deletedAt])
+  @@index([companyId, status])
+  @@index([companyId, paymentStatus])
+  @@index([companyId, mainPartyId])
+  @@map("degum_deals")
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+//  AUDIT / NUMBERING / SETTINGS
+// ═══════════════════════════════════════════════════════════════════════════
+
+model AuditLog {
+  id          String      @id @default(cuid())
+  companyId   String
+  company     Company     @relation(fields: [companyId], references: [id])
+  actorId     String?
+  action      AuditAction
+  entityType  String
+  entityId    String?
+  summary     String?
+  diff        Json?
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime    @default(now())
+
+  @@index([companyId, createdAt])
+  @@index([companyId, entityType, entityId])
+  @@index([companyId, actorId])
+  @@index([companyId, action])
+  @@map("audit_logs")
+}
+
+model NumberSequence {
+  id          String   @id @default(cuid())
+  companyId   String
+  company     Company  @relation(fields: [companyId], references: [id])
+  key         String
+  prefix      String   @default("")
+  padding     Int      @default(5)
+  nextValue   Int      @default(1)
+  resetYearly Boolean  @default(true)
+  yearLabel   String?
+  updatedAt   DateTime @updatedAt
+
+  @@unique([companyId, key])
+  @@map("number_sequences")
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id])
+  key       String
+  value     Json
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, key])
+  @@map("settings")
+}

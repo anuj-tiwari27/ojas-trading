@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Enterprise palette: white background, light-gray cards, minimal color. */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 20% 18%;
+    --card: 210 20% 98%;
+    --card-foreground: 222 20% 18%;
+    --primary: 222 47% 31%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 16% 93%;
+    --secondary-foreground: 222 20% 25%;
+    --muted: 210 16% 95%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 210 16% 93%;
+    --accent-foreground: 222 20% 25%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214 20% 90%;
+    --input: 214 20% 88%;
+    --ring: 222 47% 31%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+  }
+}
+
+/* sticky table header helper */
+.table-sticky thead th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}

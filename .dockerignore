@@ -1,0 +1,30 @@
+# Dependencies & build outputs — reinstalled/rebuilt inside the image
+node_modules
+**/node_modules
+.next
+**/.next
+dist
+**/dist
+*.tsbuildinfo
+
+# Secrets & local env — Railway injects real env vars at runtime.
+# (Never bake dev .env — it points at localhost DB/MinIO.)
+.env
+**/.env
+.env.*.local
+!.env.example
+
+# VCS / tooling / editors
+.git
+.gitignore
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+
+# Logs & local docker volumes
+*.log
+logs
+docker/data
+uploads
+coverage

@@ -1,0 +1,30 @@
+{
+  "name": "ojas-trading",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Ojas Trading — Enterprise Commodity Trading Management Platform (Edible Oil ERP)",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,green \"npm run dev -w @ojas/api\" \"npm run dev -w @ojas/web\"",
+    "build": "npm run build -w @ojas/api && npm run build -w @ojas/web",
+    "lint": "npm run lint --workspaces --if-present",
+    "db:generate": "npm run db:generate -w @ojas/api",
+    "db:migrate": "npm run db:migrate -w @ojas/api",
+    "db:seed": "npm run db:seed -w @ojas/api",
+    "db:reset": "npm run db:reset -w @ojas/api",
+    "db:studio": "npm run db:studio -w @ojas/api",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  }
+}
