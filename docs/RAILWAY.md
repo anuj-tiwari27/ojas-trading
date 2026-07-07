@@ -60,10 +60,14 @@ Project canvas → **+ New** → **Database** → **Add PostgreSQL**. It exposes
 Open the service → **Settings**:
 
 - **Service name:** `api`
-- **Root Directory:** `/` (repo root — the Dockerfiles build from repo root)
-- **Config-as-code / Railway Config File:** `apps/api/railway.json`
-  *(fallback if that field is absent: Settings → Build → set **Dockerfile Path** =
-  `apps/api/Dockerfile`)*
+- **Root Directory:** `/` (repo root — the Dockerfiles build from repo root; do **not**
+  set it to `apps/api`, or the Dockerfile's `COPY package.json` step can't see the root)
+- **Force the Dockerfile build.** By default Railway uses its Railpack/Nixpacks
+  auto-detector, which builds the whole monorepo and fails with *"No start command
+  detected"*. Pick one:
+  - add a **Variable** `RAILWAY_DOCKERFILE_PATH=apps/api/Dockerfile` (most reliable), **or**
+  - Settings → Build → Builder = **Dockerfile**, Dockerfile Path = `apps/api/Dockerfile`, **or**
+  - set the Railway config file path to `apps/api/railway.json`.
 - **Networking → Generate Domain** (creates `api-*.up.railway.app`)
 
 **Variables** (Settings → Variables → Raw Editor):
@@ -90,8 +94,9 @@ Then **Settings**:
 
 - **Service name:** `web`
 - **Root Directory:** `/`
-- **Config-as-code / Railway Config File:** `apps/web/railway.json`
-  *(fallback: Dockerfile Path = `apps/web/Dockerfile`)*
+- **Force the Dockerfile build** (same as the api service): add a **Variable**
+  `RAILWAY_DOCKERFILE_PATH=apps/web/Dockerfile`, or set Builder = Dockerfile with
+  Dockerfile Path = `apps/web/Dockerfile`, or point the config file at `apps/web/railway.json`.
 - **Networking → Generate Domain** (creates `web-*.up.railway.app`)
 
 **Variables:**
@@ -166,6 +171,10 @@ won't duplicate data.
 
 ## Troubleshooting
 
+- **Build fails with `Railpack … ✖ No start command detected`** — the service is using
+  Railway's auto-detector instead of the Dockerfile. Add the variable
+  `RAILWAY_DOCKERFILE_PATH` (api → `apps/api/Dockerfile`, web → `apps/web/Dockerfile`) and
+  redeploy. Keep Root Directory at the repo root, not the app subfolder.
 - **api deploy fails at migrate** — `DATABASE_URL` unset/typo'd, or the Postgres service
   isn't up. Check the reference resolved on the Variables tab.
 - **web loads but every API call fails (CORS / Network Error)** — `NEXT_PUBLIC_API_URL`
