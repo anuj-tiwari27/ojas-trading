@@ -18,6 +18,7 @@ import { notFound, useParams } from 'next/navigation';
 import { useMemo, useRef, useState } from 'react';
 import { ContractNoteModal } from '@/components/contract-note-modal';
 import { DataTable } from '@/components/data-table';
+import { DegumConfirmationNoteModal } from '@/components/degum-confirmation-note-modal';
 import { PageHeader } from '@/components/page-header';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -382,7 +383,11 @@ export default function DealTypePage() {
         )}
       </Modal>
 
-      <ContractNoteModal open={!!contractRow} onClose={() => setContractRow(null)} deal={contractRow} dealType={type} />
+      {type === 'degum-deals' ? (
+        <DegumConfirmationNoteModal open={!!contractRow} onClose={() => setContractRow(null)} deal={contractRow} />
+      ) : (
+        <ContractNoteModal open={!!contractRow} onClose={() => setContractRow(null)} deal={contractRow} dealType={type} />
+      )}
 
       {/* Import result */}
       <Modal
