@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import * as argon2 from 'argon2';
 import { AuditService } from '../audit/audit.service';
+import { AuthService } from '../auth/auth.service';
 import {
   buildPageMeta,
   PaginationQueryDto,
@@ -27,6 +28,7 @@ export class UsersService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly audit: AuditService,
+    private readonly auth: AuthService,
   ) {}
 
   async list(user: RequestUser, q: PaginationQueryDto) {
@@ -100,6 +102,7 @@ export class UsersService {
       data,
       select: SAFE_SELECT,
     });
+    this.auth.invalidateUser(id); // isActive may have changed
     await this.audit.record({
       companyId: user.companyId,
       actorId: user.id,
@@ -120,6 +123,7 @@ export class UsersService {
         skipDuplicates: true,
       }),
     ]);
+    this.auth.invalidateUser(id); // permissions changed → drop cached context
     await this.audit.record({
       companyId: user.companyId,
       actorId: user.id,
@@ -137,6 +141,7 @@ export class UsersService {
       where: { id },
       data: { isActive: false, deletedAt: new Date() },
     });
+    this.auth.invalidateUser(id); // revoke cached access immediately
     await this.audit.record({
       companyId: user.companyId,
       actorId: user.id,

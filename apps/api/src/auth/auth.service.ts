@@ -29,6 +29,12 @@ export class AuthService {
     private readonly audit: AuditService,
   ) {}
 
+  // Short-lived cache of the per-request user context (roles + permissions) so we
+  // don't re-run the 4-table join on every authenticated request. Role/status
+  // changes invalidate it explicitly (invalidateUser); the TTL is a backstop.
+  private readonly userCtxCache = new Map<string, { value: RequestUser; expires: number }>();
+  private static readonly USER_CTX_TTL_MS = 30_000;
+
   private hashToken(token: string): string {
     return createHash('sha256').update(token).digest('hex');
   }
@@ -165,6 +171,9 @@ export class AuthService {
 
   /** Loads a user with roles + flattened permission keys for the request ctx. */
   async buildRequestUser(userId: string): Promise<RequestUser | null> {
+    const cached = this.userCtxCache.get(userId);
+    if (cached && cached.expires > Date.now()) return cached.value;
+
     const user = await this.prisma.user.findFirst({
       where: { id: userId, deletedAt: null, isActive: true },
       include: {
@@ -177,7 +186,10 @@ export class AuthService {
         },
       },
     });
-    if (!user) return null;
+    if (!user) {
+      this.userCtxCache.delete(userId);
+      return null;
+    }
 
     const roleKeys: string[] = [];
     const permKeys = new Set<string>();
@@ -185,7 +197,7 @@ export class AuthService {
       roleKeys.push(ur.role.key);
       for (const rp of ur.role.permissions) permKeys.add(rp.permission.key);
     }
-    return {
+    const result: RequestUser = {
       id: user.id,
       email: user.email,
       companyId: user.companyId,
@@ -194,5 +206,15 @@ export class AuthService {
       roles: roleKeys,
       permissions: [...permKeys],
     };
+    this.userCtxCache.set(userId, {
+      value: result,
+      expires: Date.now() + AuthService.USER_CTX_TTL_MS,
+    });
+    return result;
+  }
+
+  /** Drop a user's cached roles/permissions after a role or status change. */
+  invalidateUser(userId: string): void {
+    this.userCtxCache.delete(userId);
   }
 }
