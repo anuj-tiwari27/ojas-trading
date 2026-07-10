@@ -20,7 +20,7 @@ interface Company {
 // JDM/2627062002. Seller/commodity/shipment/qty/brokerage are pulled from the
 // deal; the terms & specification are editable before download.
 interface CNData {
-  firmName: string; firmAddress: string; firmPhone: string;
+  firmName: string; firmAddress: string; firmEmail: string; firmPhone: string;
   confirmationNo: string; date: string;
   sellerName: string; sellerAddress: string;
   buyerName: string; buyerAddress: string;
@@ -78,35 +78,36 @@ function inWords(value: number): string {
 
 function cnStyle(): string {
   return `
-  .dc { box-sizing: border-box; width: 190mm; margin: 0 auto; padding: 12mm; background: #fff; color: #111;
-        font-family: 'Times New Roman', Georgia, serif; font-size: 12px; line-height: 1.5; }
+  .dc { box-sizing: border-box; width: 190mm; margin: 0 auto; padding: 8mm 10mm; background: #fff; color: #000;
+        font-family: 'Times New Roman', Georgia, serif; font-size: 12px; line-height: 1.35; }
   .dc * { box-sizing: border-box; }
-  .dc-firm { text-align: center; border-bottom: 2px solid #111; padding-bottom: 6px; margin-bottom: 10px; }
-  .dc-firm h1 { margin: 0; font-size: 20px; letter-spacing: .4px; text-transform: uppercase; }
-  .dc-firm p { margin: 2px 0 0; font-size: 11px; }
-  .dc-head { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; }
-  .dc-title { text-align: center; font-size: 14px; font-weight: 700; text-decoration: underline; margin: 6px 0 4px; text-transform: uppercase; }
-  .dc-intro { font-size: 11px; margin: 6px 0 10px; }
-  table.dc-kv { width: 100%; border-collapse: collapse; border: 1px solid #111; }
-  table.dc-kv td { border-top: 1px solid #ccc; padding: 5px 8px; vertical-align: top; }
-  table.dc-kv tr:first-child td { border-top: none; }
-  table.dc-kv td.k { width: 150px; font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: .3px; background: #f6f6f6; border-right: 1px solid #111; }
-  table.dc-kv td.v { font-size: 12px; }
-  .dc-kv .nm { font-weight: 700; }
-  .dc-kv .sub { color: #333; }
-  .dc-kv ol { margin: 0; padding-left: 16px; }
-  .dc-kv ol li { font-size: 10.5px; line-height: 1.4; margin-bottom: 3px; }
-  .dc-foot { margin-top: 12px; font-size: 11px; font-weight: 700; }
-  .dc-sign { margin-top: 26px; text-align: right; font-size: 13px; font-weight: 700; text-transform: uppercase; }
-  @media print { body { margin: 0; } .dc { width: auto; box-shadow: none; padding: 8mm; } }
+  .dc-firm { text-align: center; }
+  .dc-firm h1 { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: 1px; }
+  .dc-firm .addr { font-size: 8.5px; margin-top: 3px; line-height: 1.3; }
+  .dc-rule { border-bottom: 2px solid #000; margin: 5px 0 7px; }
+  .dc-head { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; }
+  .dc-intro { font-size: 10.5px; font-weight: 700; margin: 5px 0 6px; text-transform: uppercase; }
+  table.dc-kv { width: 100%; border-collapse: collapse; border: 1.5px solid #000; }
+  table.dc-kv td { border: 1px solid #000; padding: 3px 7px; vertical-align: top; font-size: 11px; text-transform: uppercase; }
+  table.dc-kv td.k { width: 148px; font-weight: 700; }
+  table.dc-kv td.v { font-weight: 700; }
+  .dc-kv .party { font-weight: 700; font-style: italic; }
+  .dc-kv .nominee { font-weight: 400; font-style: italic; padding-left: 14px; }
+  table.dc-terms { width: 100%; border-collapse: collapse; }
+  table.dc-terms td { border: none; padding: 1px 4px 3px; vertical-align: top; font-size: 10.5px; font-weight: 400; text-transform: uppercase; }
+  table.dc-terms td.num { width: 22px; text-align: right; font-weight: 700; }
+  .dc-foot { margin-top: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+  .dc-sign { margin-top: 6px; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+  .dc-sign .sig-space { height: 46px; }
+  @media print { body { margin: 0; } .dc { width: auto; box-shadow: none; padding: 6mm 8mm; } }
   `;
 }
 
 function partyBlock(name: string, address: string): string {
   const addr = String(address ?? '')
     .split('\n').map((l) => l.trim()).filter(Boolean)
-    .map((l) => `<div class="sub">${esc(l)}</div>`).join('');
-  return `<div class="nm">${esc(name || '—')}</div>${addr}<div class="sub">&/OR THEIR NOMINEE</div>`;
+    .map((l) => `<div class="party">${esc(l)}</div>`).join('');
+  return `<div class="party">${esc(name || '—')}</div>${addr}<div class="nominee">&/OR THEIR NOMINEE</div>`;
 }
 
 function cnBody(d: CNData): string {
@@ -116,26 +117,32 @@ function cnBody(d: CNData): string {
     d.quantityWords ? `(${esc(d.quantityWords)})` : '',
   ].filter(Boolean).join(' &nbsp; ');
   const terms = d.otherTerms.split('\n').map((t) => t.trim()).filter(Boolean);
-  const termsHtml = terms.length ? `<ol>${terms.map((t) => `<li>${esc(t)}</li>`).join('')}</ol>` : '—';
+  const termsHtml = terms.length
+    ? `<table class="dc-terms">${terms.map((t, i) => `<tr><td class="num">${i + 1}</td><td>${esc(t)}</td></tr>`).join('')}</table>`
+    : '—';
+  const firmLine = [
+    d.firmAddress && `Address: ${d.firmAddress}`,
+    d.firmEmail && `Email Id: ${d.firmEmail}`,
+    d.firmPhone && `Mo No: ${d.firmPhone}`,
+  ].filter(Boolean).map(esc).join(' &nbsp;|&nbsp; ');
 
   return `
   <div class="dc">
     <div class="dc-firm">
       <h1>${esc(d.firmName || 'Ojas Trading')}</h1>
-      ${d.firmAddress ? `<p>${esc(d.firmAddress)}</p>` : ''}
-      ${d.firmPhone ? `<p>${esc(d.firmPhone)}</p>` : ''}
+      ${firmLine ? `<div class="addr">${firmLine}</div>` : ''}
     </div>
+    <div class="dc-rule"></div>
     <div class="dc-head">
       <span>Confirmation Note No.: ${esc(d.confirmationNo || '—')}</span>
-      <span>DATED ${esc(d.date || '—')}</span>
+      <span>DATED ${esc(d.date || '—')}.</span>
     </div>
-    <div class="dc-title">Confirmation Note</div>
     <div class="dc-intro">Under your instruction and order, we confirm having concluded on account of the parties
-      mentioned below for the following transaction on the following terms &amp; conditions:</div>
+      mentioned below for following transaction on following terms &amp; conditions:</div>
     <table class="dc-kv">
       ${kv('Sellers', partyBlock(d.sellerName, d.sellerAddress))}
       ${kv('Buyers', partyBlock(d.buyerName, d.buyerAddress))}
-      ${kv('Commodity', `<span class="nm">${esc(d.commodity || '—')}</span>`)}
+      ${kv('Commodity', esc(d.commodity || '—'))}
       ${kv('Specification', esc(d.specification || '—'))}
       ${kv('Port', esc(d.port || '—'))}
       ${kv('Payment', esc(d.payment || '—'))}
@@ -147,7 +154,7 @@ function cnBody(d: CNData): string {
       ${kv('Brokerage', esc(d.brokerage || '—'))}
     </table>
     <div class="dc-foot">Our detailed confirmation note no. ${esc(d.confirmationNo || '—')} dated ${esc(d.date || '—')} follows.</div>
-    <div class="dc-sign">${esc(d.firmName || 'Ojas Trading')}</div>
+    <div class="dc-sign"><div class="sig-space"></div>${esc(d.firmName || 'Ojas Trading')}</div>
   </div>`;
 }
 
@@ -185,8 +192,9 @@ export function DegumConfirmationNoteModal({
   const initial = useMemo<CNData>(() => {
     const c = companyQ.data;
     const firmName = c?.legalName || c?.name || 'Ojas Trading';
-    const firmAddress = [c?.addressLine, c?.city, c?.state, c?.pincode].filter(Boolean).join(', ');
-    const firmPhone = c?.phone ? `Phone : ${c.phone}` : '';
+    const firmAddress = [c?.addressLine, c?.city, [c?.state, c?.pincode].filter(Boolean).join('-')].filter(Boolean).join(', ');
+    const firmEmail = c?.email ?? '';
+    const firmPhone = c?.phone ?? '';
 
     const d = deal ?? {};
     const seller = d.mainParty ?? {};
@@ -197,6 +205,7 @@ export function DegumConfirmationNoteModal({
     return {
       firmName,
       firmAddress,
+      firmEmail,
       firmPhone,
       confirmationNo: d.dealNo ?? '',
       date: dmy(d.dealDate),
