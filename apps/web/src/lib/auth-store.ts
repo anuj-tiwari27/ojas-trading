@@ -16,6 +16,10 @@ interface AuthState {
   accessToken: string | null;
   refreshToken: string | null;
   user: AuthUser | null;
+  // True once the persisted session has been read from storage. Routing must
+  // wait for this, or the initial `null` state flip-flops redirects (loop).
+  hasHydrated: boolean;
+  setHasHydrated: (v: boolean) => void;
   setSession: (p: {
     accessToken: string;
     refreshToken: string;
@@ -32,6 +36,8 @@ export const useAuth = create<AuthState>()(
       accessToken: null,
       refreshToken: null,
       user: null,
+      hasHydrated: false,
+      setHasHydrated: (v) => set({ hasHydrated: v }),
       setSession: ({ accessToken, refreshToken, user }) =>
         set({ accessToken, refreshToken, user }),
       setTokens: (accessToken, refreshToken) =>
@@ -43,6 +49,15 @@ export const useAuth = create<AuthState>()(
         return u.isSuperAdmin || u.permissions.includes(permission);
       },
     }),
-    { name: 'ojas-auth' },
+    {
+      name: 'ojas-auth',
+      // Only persist the session — not the transient hydration flag.
+      partialize: (s) => ({
+        accessToken: s.accessToken,
+        refreshToken: s.refreshToken,
+        user: s.user,
+      }),
+      onRehydrateStorage: () => (state) => state?.setHasHydrated(true),
+    },
   ),
 );

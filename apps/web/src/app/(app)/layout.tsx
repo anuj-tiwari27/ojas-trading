@@ -13,10 +13,11 @@ export default function AppLayout({
   children: React.ReactNode;
 }) {
   const router = useRouter();
-  const { accessToken, user, clear, setSession, refreshToken } = useAuth();
+  const { accessToken, user, clear, setSession, refreshToken, hasHydrated } = useAuth();
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    if (!hasHydrated) return; // wait until the persisted session is loaded
     let active = true;
     (async () => {
       if (!accessToken) {
@@ -40,9 +41,9 @@ export default function AppLayout({
       active = false;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accessToken]);
+  }, [accessToken, hasHydrated]);
 
-  if (!ready) {
+  if (!hasHydrated || !ready) {
     return (
       <div className="flex h-screen items-center justify-center text-sm text-muted-foreground">
         Loading…

@@ -11,15 +11,17 @@ import { useAuth, type AuthUser } from '@/lib/auth-store';
 
 export default function LoginPage() {
   const router = useRouter();
-  const { setSession, accessToken } = useAuth();
+  const { setSession, accessToken, hasHydrated } = useAuth();
   const [email, setEmail] = useState('admin@ojastrading.com');
   const [password, setPassword] = useState('Admin@12345');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (accessToken) router.replace('/dashboard');
-  }, [accessToken, router]);
+    // Only after the persisted session is read — otherwise a stale token
+    // flip-flops between /login and /dashboard.
+    if (hasHydrated && accessToken) router.replace('/dashboard');
+  }, [accessToken, hasHydrated, router]);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
