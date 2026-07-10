@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Header,
   HttpCode,
   Post,
   Req,
@@ -48,8 +49,11 @@ export class AuthController {
     return { loggedOut: true };
   }
 
+  // no-store so the browser never serves a cached /auth/me (a stale 304 lets the
+  // route guard think an expired session is valid → dashboard⇄login redirect loop).
   @ApiBearerAuth()
   @Get('me')
+  @Header('Cache-Control', 'no-store')
   me(@CurrentUser() user: RequestUser) {
     return user;
   }
