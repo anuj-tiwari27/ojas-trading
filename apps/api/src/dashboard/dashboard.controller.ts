@@ -11,6 +11,13 @@ import { DashboardService } from './dashboard.service';
 export class DashboardController {
   constructor(private readonly dashboard: DashboardService) {}
 
+  /** Everything the dashboard needs in a single request. */
+  @Get('overview')
+  @RequirePermissions('dashboard:read')
+  overview(@CurrentUser() user: RequestUser) {
+    return this.dashboard.overview(user.companyId);
+  }
+
   @Get('summary')
   @RequirePermissions('dashboard:read')
   summary(@CurrentUser() user: RequestUser) {

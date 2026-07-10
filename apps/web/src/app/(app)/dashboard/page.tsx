@@ -71,27 +71,26 @@ function StatCard({
 }
 
 export default function DashboardPage() {
-  const summary = useQuery({ queryKey: ['dash', 'summary'], queryFn: () => apiGet<Summary>('/dashboard/summary') });
-  const exposure = useQuery({
-    queryKey: ['dash', 'exposure'],
-    queryFn: () => apiGet<{ code: string; name: string; qty: number; marketValue: number; netMtm: number }[]>('/dashboard/product-exposure'),
+  // One request instead of six — the API runs all six queries in parallel and
+  // returns them together, so the browser makes a single round-trip.
+  const dash = useQuery({
+    queryKey: ['dash', 'overview'],
+    queryFn: () => apiGet<{
+      summary: Summary;
+      exposure: { code: string; name: string; qty: number; marketValue: number; netMtm: number }[];
+      mtm: { day: string; mtm: number }[];
+      paymentStatus: { status: string; count: number; color: string }[];
+      upcoming: { type: string; dealNo: string; party: string; product: string; qty: number; amount: number; due: string; daysLeft: number; paymentStatus: string }[];
+      recent: { id: string; summary: string; action: string; createdAt: string }[];
+    }>('/dashboard/overview'),
   });
-  const mtm = useQuery({
-    queryKey: ['dash', 'mtm'],
-    queryFn: () => apiGet<{ day: string; mtm: number }[]>('/dashboard/daily-mtm'),
-  });
-  const pay = useQuery({
-    queryKey: ['dash', 'pay'],
-    queryFn: () => apiGet<{ status: string; count: number; color: string }[]>('/dashboard/payment-status'),
-  });
-  const recent = useQuery({
-    queryKey: ['dash', 'recent'],
-    queryFn: () => apiGet<{ id: string; summary: string; action: string; createdAt: string }[]>('/dashboard/recent-activity'),
-  });
-  const upcoming = useQuery({
-    queryKey: ['dash', 'upcoming'],
-    queryFn: () => apiGet<{ type: string; dealNo: string; party: string; product: string; qty: number; amount: number; due: string; daysLeft: number; paymentStatus: string }[]>('/dashboard/upcoming-due'),
-  });
+  const L = dash.isLoading;
+  const summary = { data: dash.data?.summary, isLoading: L };
+  const exposure = { data: dash.data?.exposure, isLoading: L };
+  const mtm = { data: dash.data?.mtm, isLoading: L };
+  const pay = { data: dash.data?.paymentStatus, isLoading: L };
+  const recent = { data: dash.data?.recent, isLoading: L };
+  const upcoming = { data: dash.data?.upcoming, isLoading: L };
 
   const s = summary.data;
 

@@ -7,6 +7,23 @@ const num = (v: any) => Number(v ?? 0);
 export class DashboardService {
   constructor(private readonly prisma: PrismaService) {}
 
+  /**
+   * All dashboard data in ONE response. The six queries run in parallel
+   * server-side (fast, intra-region), so the browser makes a single
+   * round-trip instead of six — a big win on high-latency links.
+   */
+  async overview(companyId: string) {
+    const [summary, exposure, mtm, paymentStatus, upcoming, recent] = await Promise.all([
+      this.summary(companyId),
+      this.productExposure(companyId),
+      this.dailyMtm(companyId),
+      this.paymentStatus(companyId),
+      this.upcomingDue(companyId),
+      this.recentActivity(companyId),
+    ]);
+    return { summary, exposure, mtm, paymentStatus, upcoming, recent };
+  }
+
   /** Module A headline KPIs (Direct + Degum deals only). */
   async summary(companyId: string) {
     const base = { companyId, deletedAt: null };
