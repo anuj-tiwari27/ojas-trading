@@ -46,6 +46,14 @@ enum DirectDealStatus {
   CANCELLED
 }
 
+// Direct Deals (Module C) — PRINCIPAL = Self firm buys/sells (holds stock, MTM);
+// BROKERAGE = we only broker a trade between an external buyer & seller (no self,
+// no inventory, no MTM) and charge each side its own brokerage.
+enum DirectDealKind {
+  PRINCIPAL
+  BROKERAGE
+}
+
 enum PaymentStatus {
   PENDING
   PARTIAL
@@ -274,11 +282,13 @@ model Party {
   updatedAt     DateTime  @updatedAt
   deletedAt     DateTime?
 
-  // deal relations — every deal is between a Main party and a Self firm
-  directAsMain  DirectDeal[] @relation("DirectMain")
-  directAsSelf  DirectDeal[] @relation("DirectSelf")
-  degumAsMain   DegumDeal[]  @relation("DegumMain")
-  degumAsSelf   DegumDeal[]  @relation("DegumSelf")
+  // deal relations — a principal deal is Main ↔ Self; a broker deal is Buyer ↔ Seller
+  directAsMain   DirectDeal[] @relation("DirectMain")
+  directAsSelf   DirectDeal[] @relation("DirectSelf")
+  directAsBuyer  DirectDeal[] @relation("DirectBuyer")
+  directAsSeller DirectDeal[] @relation("DirectSeller")
+  degumAsMain    DegumDeal[]  @relation("DegumMain")
+  degumAsSelf    DegumDeal[]  @relation("DegumSelf")
 
   @@unique([companyId, name])
   @@index([companyId, deletedAt])
@@ -325,22 +335,34 @@ model DirectDeal {
   company     Company   @relation(fields: [companyId], references: [id])
   dealNo      String
   date        DateTime  @default(now())
-  side        DealSide
+  kind        DirectDealKind @default(PRINCIPAL)
+  side        DealSide? // PRINCIPAL only (Self firm's perspective); null for BROKERAGE
 
+  // PRINCIPAL parties: Main (external) ↔ Self firm
   mainPartyId String?
   mainParty   Party?    @relation("DirectMain", fields: [mainPartyId], references: [id])
   selfPartyId String?
   selfParty   Party?    @relation("DirectSelf", fields: [selfPartyId], references: [id])
+  // BROKERAGE parties: external Buyer ↔ external Seller (no self firm)
+  buyerPartyId  String?
+  buyerParty    Party?  @relation("DirectBuyer", fields: [buyerPartyId], references: [id])
+  sellerPartyId String?
+  sellerParty   Party?  @relation("DirectSeller", fields: [sellerPartyId], references: [id])
   productId   String?
   product     Product?  @relation(fields: [productId], references: [id])
 
   quantity    Decimal   @db.Decimal(18, 3)
   rate        Decimal   @db.Decimal(18, 4)
-  value       Decimal   @default(0) @db.Decimal(18, 4) // ƒ
+  value       Decimal   @default(0) @db.Decimal(18, 4) // ƒ (0 for BROKERAGE)
   marketRate  Decimal   @default(0) @db.Decimal(18, 4)
-  mtm         Decimal   @default(0) @db.Decimal(18, 4) // ƒ
-  brokerageRate  Decimal @default(0) @db.Decimal(18, 4) // ₹/MT
-  brokerageTotal Decimal @default(0) @db.Decimal(18, 4) // ƒ = Qty × brokerageRate
+  mtm         Decimal   @default(0) @db.Decimal(18, 4) // ƒ (0 for BROKERAGE)
+  brokerageRate  Decimal @default(0) @db.Decimal(18, 4) // ₹/MT (PRINCIPAL)
+  brokerageTotal Decimal @default(0) @db.Decimal(18, 4) // ƒ total income = PRINCIPAL: Qty × brokerageRate; BROKERAGE: buyer + seller
+  // BROKERAGE: two per-ton brokerages charged separately to each side
+  buyerBrokerageRate   Decimal @default(0) @db.Decimal(18, 4) // ₹/MT
+  buyerBrokerageTotal  Decimal @default(0) @db.Decimal(18, 4) // ƒ = Qty × buyerBrokerageRate
+  sellerBrokerageRate  Decimal @default(0) @db.Decimal(18, 4) // ₹/MT
+  sellerBrokerageTotal Decimal @default(0) @db.Decimal(18, 4) // ƒ = Qty × sellerBrokerageRate
 
   dueDate       DateTime?
   paymentStatus PaymentStatus    @default(PENDING)
@@ -358,10 +380,13 @@ model DirectDeal {
   @@index([companyId, deletedAt])
   @@index([companyId, date])
   @@index([companyId, side])
+  @@index([companyId, kind])
   @@index([companyId, status])
   @@index([companyId, mainPartyId])
   @@index([companyId, productId])
   @@index([companyId, selfPartyId])
+  @@index([companyId, buyerPartyId])
+  @@index([companyId, sellerPartyId])
   @@index([companyId, paymentStatus])
   @@map("direct_deals")
 }

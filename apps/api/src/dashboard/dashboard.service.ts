@@ -65,7 +65,7 @@ export class DashboardService {
   async productExposure(companyId: string) {
     const base = { companyId, deletedAt: null };
     const [direct, degum, products] = await Promise.all([
-      this.prisma.directDeal.findMany({ where: base, select: { productId: true, quantity: true, value: true, mtm: true } }),
+      this.prisma.directDeal.findMany({ where: { ...base, kind: 'PRINCIPAL' }, select: { productId: true, quantity: true, value: true, mtm: true } }),
       this.prisma.degumDeal.findMany({ where: base, select: { productId: true, quantity: true, sellValue: true, grossMargin: true } }),
       // include soft-deleted products so referenced products still resolve a name
       this.prisma.product.findMany({ where: { companyId } }),
@@ -116,6 +116,7 @@ export class DashboardService {
              COALESCE(SUM("mtm"),0)::float8 AS mtm
       FROM "direct_deals"
       WHERE "companyId" = ${companyId} AND "deletedAt" IS NULL
+        AND "kind" = 'PRINCIPAL'
         AND "date" >= (now() - interval '60 days')
       GROUP BY 1 ORDER BY 1 ASC;`;
     return rows.map((r) => ({ day: r.day, mtm: Number(r.mtm) }));

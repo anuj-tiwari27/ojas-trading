@@ -22,7 +22,7 @@ interface ContractData {
   buyerName: string; buyerCity: string; buyerState: string; buyerContact: string;
   itemName: string; qty: string; weight: string; rate: string;
   paymentCondition: string; goodsCondition: string; deliveryCondition: string;
-  deliverAt: string; bardanaCondition: string; remarks: string;
+  deliverAt: string; bardanaCondition: string; brokerageNote: string; remarks: string;
 }
 
 const TERMS = [
@@ -126,6 +126,7 @@ function contractBody(d: ContractData): string {
       ${row('Delivery Condition', d.deliveryCondition)}
       ${row('Deliver At', d.deliverAt)}
       ${row('Bardana Condition', d.bardanaCondition)}
+      ${d.brokerageNote ? row('Brokerage', d.brokerageNote) : ''}
       ${row('Remarks', d.remarks)}
     </div>
     <div class="cn-terms">
@@ -180,11 +181,16 @@ export function ContractNoteModal({
 
     const d = deal ?? {};
     const isDirect = dealType === 'direct-deals';
-    // BUY = Self buys from Main → Supplier is Main, Buyer is Self. SELL = reverse.
+    const isBroker = isDirect && d.kind === 'BROKERAGE';
+    // PRINCIPAL: BUY = Self buys from Main → Supplier is Main, Buyer is Self; SELL = reverse.
+    // BROKERAGE: no self firm — Supplier is the Seller party, Buyer is the Buyer party.
     const sellSide = isDirect && d.side === 'SELL';
-    const supplier = sellSide ? d.selfParty : d.mainParty;
-    const buyer = sellSide ? d.mainParty : d.selfParty;
+    const supplier = isBroker ? d.sellerParty : sellSide ? d.selfParty : d.mainParty;
+    const buyer = isBroker ? d.buyerParty : sellSide ? d.mainParty : d.selfParty;
     const rate = isDirect ? d.rate : (d.sellRate ?? d.buyRate);
+    const brokerageNote = isBroker
+      ? `Buyer Rs. ${formatNumber(Number(d.buyerBrokerageRate ?? 0), 0)}/- PMT · Seller Rs. ${formatNumber(Number(d.sellerBrokerageRate ?? 0), 0)}/- PMT (plus applicable GST)`
+      : '';
 
     return {
       firmName,
@@ -209,6 +215,7 @@ export function ContractNoteModal({
       deliveryCondition: '',
       deliverAt: '',
       bardanaCondition: '',
+      brokerageNote,
       remarks: '',
     };
   }, [deal, dealType, companyQ.data]);

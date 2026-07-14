@@ -27,7 +27,7 @@ export class AnalyticsService {
 
     const [direct, degum, products] = await Promise.all([
       this.prisma.directDeal.findMany({
-        where: { companyId, deletedAt: null, selfPartyId: { in: [...selfIds] } },
+        where: { companyId, deletedAt: null, kind: 'PRINCIPAL', selfPartyId: { in: [...selfIds] } },
         include: { product: true, mainParty: true },
       }),
       this.prisma.degumDeal.findMany({

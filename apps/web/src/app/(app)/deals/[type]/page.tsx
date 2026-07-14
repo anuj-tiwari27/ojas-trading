@@ -59,6 +59,7 @@ function badgeColor(v: string): string | null {
     PAID: '#22c55e', PENDING: '#f59e0b', PARTIAL: '#f59e0b',
     PAYMENT_DUE: '#f59e0b', AWAITING_SHIP_NAME: '#94a3b8',
     CANCELLED: '#ef4444', BUY: '#6366f1', SELL: '#8b5cf6',
+    PRINCIPAL: '#0891b2', BROKERAGE: '#c026d3',
     SHIP_NAME_GIVEN: '#0ea5e9', IN_TRANSIT: '#0ea5e9', SCHEDULED: '#94a3b8', LOADED: '#6366f1',
     SHIPMENT_CONFIRMED: '#0ea5e9',
   };
@@ -132,7 +133,7 @@ export default function DealTypePage() {
   function clearFilters() { setFilters({}); setFilterLabels({}); setPage(1); }
   const activeFilters = Object.values(filters).filter(Boolean).length;
 
-  function openCreate() { setEditing(null); setForm({}); setOpen(true); }
+  function openCreate() { setEditing(null); setForm(type === 'direct-deals' ? { kind: 'PRINCIPAL' } : {}); setOpen(true); }
   function openEdit(row: any) { setEditing(row); setForm(rowToForm(cfg!, row)); setOpen(true); }
   function closeModal() { setOpen(false); setEditing(null); setForm({}); }
 
@@ -220,7 +221,10 @@ export default function DealTypePage() {
 
   function submit() {
     const payload: Record<string, any> = {};
+    // Only submit fields currently visible — a hidden field (e.g. the other
+    // deal-type's inputs) must not leak a stale value into the payload.
     for (const f of cfg!.fields) {
+      if (f.showWhen && !f.showWhen(form)) continue;
       const v = form[f.key];
       if (v === undefined || v === '') continue;
       if (f.bool) payload[f.key] = v === 'true';
@@ -344,7 +348,7 @@ export default function DealTypePage() {
         }
       >
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {cfg.fields.map((f) => {
+          {cfg.fields.filter((f) => !f.showWhen || f.showWhen(form)).map((f) => {
             const rel = editing?.[f.key.replace(/Id$/, '')];
             const selectedLabel = !rel ? undefined : f.ref === 'products' ? `${rel.code} — ${rel.name}` : rel.name;
             return (

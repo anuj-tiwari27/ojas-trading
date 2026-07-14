@@ -15,6 +15,8 @@ export interface DealField {
   options?: { value: string; label: string }[];
   required?: boolean;
   bool?: boolean; // select that maps to boolean
+  /** Show this field only when the predicate holds (based on current form values). */
+  showWhen?: (form: Record<string, string>) => boolean;
 }
 export interface RowChip {
   color: string;
@@ -47,6 +49,12 @@ const SIDE = [
   { value: 'BUY', label: 'Buy' },
   { value: 'SELL', label: 'Sell' },
 ];
+const DIRECT_KIND = [
+  { value: 'PRINCIPAL', label: 'Principal (Self firm)' },
+  { value: 'BROKERAGE', label: 'Broker (Buyer ↔ Seller)' },
+];
+const isPrincipal = (f: Record<string, string>) => (f.kind ?? 'PRINCIPAL') === 'PRINCIPAL';
+const isBrokerage = (f: Record<string, string>) => f.kind === 'BROKERAGE';
 const PAY_STATUS = ['PENDING', 'PARTIAL', 'PAID'].map((v) => ({ value: v, label: v }));
 const DEGUM_STATUS = ['OPEN', 'SHIPMENT_CONFIRMED', 'DELIVERED', 'CLOSED'].map((v) => ({ value: v, label: v }));
 const YESNO = [
@@ -94,9 +102,12 @@ export const DEAL_TYPES: Record<string, DealType> = {
     columns: [
       { key: 'dealNo', label: 'Deal ID' },
       { key: 'date', label: 'Date', fmt: 'date' },
+      { key: 'kind', label: 'Type', fmt: 'badge' },
       { key: 'side', label: 'Side', fmt: 'badge' },
       { key: 'mainParty.name', label: 'Main Party' },
       { key: 'selfParty.name', label: 'Self Firm' },
+      { key: 'buyerParty.name', label: 'Buyer' },
+      { key: 'sellerParty.name', label: 'Seller' },
       { key: 'product.code', label: 'Material' },
       { key: 'quantity', label: 'Qty (MT)', fmt: 'qty' },
       { key: 'rate', label: 'Rate', fmt: 'money' },
@@ -104,6 +115,8 @@ export const DEAL_TYPES: Record<string, DealType> = {
       { key: 'marketRate', label: 'Market Rate', fmt: 'money' },
       { key: 'mtm', label: 'MTM', fmt: 'money' },
       { key: 'brokerageRate', label: 'Brokerage ₹/MT', fmt: 'money' },
+      { key: 'buyerBrokerageTotal', label: 'Buyer Brokerage', fmt: 'money' },
+      { key: 'sellerBrokerageTotal', label: 'Seller Brokerage', fmt: 'money' },
       { key: 'brokerageTotal', label: 'Brokerage Total', fmt: 'money' },
       { key: 'dueDate', label: 'Due', fmt: 'date' },
       { key: 'daysLeft', label: 'Days Left', fmt: 'num' },
@@ -111,14 +124,21 @@ export const DEAL_TYPES: Record<string, DealType> = {
     ],
     fields: [
       { key: 'date', label: 'Date', type: 'date' },
-      { key: 'side', label: 'Buy / Sell (Self firm side)', type: 'select', options: SIDE, required: true },
-      { key: 'mainPartyId', label: 'Main Party', type: 'select', ref: 'parties' },
-      { key: 'selfPartyId', label: 'Self Firm', type: 'select', ref: 'self-parties' },
+      { key: 'kind', label: 'Deal Type', type: 'select', options: DIRECT_KIND },
+      // PRINCIPAL — Self firm buys/sells
+      { key: 'side', label: 'Buy / Sell (Self firm side)', type: 'select', options: SIDE, required: true, showWhen: isPrincipal },
+      { key: 'mainPartyId', label: 'Main Party', type: 'select', ref: 'parties', showWhen: isPrincipal },
+      { key: 'selfPartyId', label: 'Self Firm', type: 'select', ref: 'self-parties', showWhen: isPrincipal },
+      // BROKERAGE — external buyer ↔ seller, two brokerages
+      { key: 'buyerPartyId', label: 'Buyer', type: 'select', ref: 'parties', required: true, showWhen: isBrokerage },
+      { key: 'sellerPartyId', label: 'Seller', type: 'select', ref: 'parties', required: true, showWhen: isBrokerage },
       { key: 'productId', label: 'Material', type: 'select', ref: 'products' },
       { key: 'quantity', label: 'Qty (MT)', type: 'number', required: true },
       { key: 'rate', label: 'Rate (₹/MT)', type: 'number', required: true },
-      { key: 'marketRate', label: 'Market Rate (₹/MT)', type: 'number' },
-      { key: 'brokerageRate', label: 'Brokerage (₹/MT)', type: 'number' },
+      { key: 'marketRate', label: 'Market Rate (₹/MT)', type: 'number', showWhen: isPrincipal },
+      { key: 'brokerageRate', label: 'Brokerage (₹/MT)', type: 'number', showWhen: isPrincipal },
+      { key: 'buyerBrokerageRate', label: 'Buyer Brokerage (₹/MT)', type: 'number', showWhen: isBrokerage },
+      { key: 'sellerBrokerageRate', label: 'Seller Brokerage (₹/MT)', type: 'number', showWhen: isBrokerage },
       { key: 'dueDate', label: 'Due / Delivery Date', type: 'date' },
       { key: 'paymentStatus', label: 'Payment Status', type: 'select', options: PAY_STATUS },
       { key: 'remarks', label: 'Remarks', type: 'text' },

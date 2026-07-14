@@ -31,7 +31,7 @@ export class DirectDealService extends DealBaseService {
   protected model = 'directDeal';
   protected entityType = 'DirectDeal';
   protected searchFields = ['dealNo', 'tankerNo', 'remarks'];
-  protected include = { mainParty: true, selfParty: true, product: true };
+  protected include = { mainParty: true, selfParty: true, buyerParty: true, sellerParty: true, product: true };
   protected defaultOrderBy = { createdAt: 'desc' as const }; // latest created on top
   protected dateField = 'date';
   protected hasSide = true;
@@ -60,6 +60,7 @@ export class DirectDealService extends DealBaseService {
       where: {
         companyId,
         deletedAt: null,
+        kind: 'PRINCIPAL', // broker deals hold no stock
         selfPartyId,
         productId,
         ...(excludeDealId ? { id: { not: excludeDealId } } : {}),
@@ -67,6 +68,31 @@ export class DirectDealService extends DealBaseService {
       select: { side: true, quantity: true },
     });
     return rows.reduce((n: number, r: any) => n + (r.side === 'BUY' ? 1 : -1) * Number(r.quantity), 0);
+  }
+
+  /**
+   * BROKERAGE deals: we only broker a trade between a distinct external buyer and
+   * seller — neither side may be a Self firm (the whole point is "no self firm").
+   */
+  private async assertBrokerParties(
+    companyId: string,
+    buyerPartyId: string | null | undefined,
+    sellerPartyId: string | null | undefined,
+  ) {
+    if (!buyerPartyId || !sellerPartyId) {
+      throw new BadRequestException('A broker deal needs both a buyer and a seller.');
+    }
+    if (buyerPartyId === sellerPartyId) {
+      throw new BadRequestException('A broker deal needs a distinct buyer and seller — they cannot be the same party.');
+    }
+    const parties = await this.prisma.party.findMany({
+      where: { companyId, id: { in: [buyerPartyId, sellerPartyId] } },
+      select: { id: true, isSelf: true },
+    });
+    if (parties.length < 2) throw new BadRequestException('Buyer or seller party not found.');
+    if (parties.some((p) => p.isSelf)) {
+      throw new BadRequestException("A broker deal's buyer and seller must be external parties, not a Self firm.");
+    }
   }
 
   /** Block a Self SELL that would exceed on-hand stock (no overselling / negative holdings). */
@@ -93,14 +119,12 @@ export class DirectDealService extends DealBaseService {
   }
 
   async create(user: RequestUser, dto: CreateDirectDealDto, ctx: Ctx) {
-    if (dto.side === 'SELL') {
-      await this.assertCanSell(user.companyId, dto.selfPartyId, dto.productId, dto.quantity);
-    }
-    const marketRate = dto.marketRate ?? (await this.resolveMarketRate(user.companyId, dto.productId));
-    const brokerageRate = dto.brokerageRate ?? 0;
-    const value = r4(dto.quantity * dto.rate);
-    const mtm = r4((marketRate - dto.rate) * dto.quantity);
-    const brokerageTotal = r4(dto.quantity * brokerageRate);
+    const kind = dto.kind ?? 'PRINCIPAL';
+    const qty = dto.quantity;
+    const modeData =
+      kind === 'BROKERAGE'
+        ? await this.brokerData(user.companyId, qty, dto.buyerPartyId, dto.sellerPartyId, dto.buyerBrokerageRate ?? 0, dto.sellerBrokerageRate ?? 0)
+        : await this.principalData(user.companyId, qty, dto.rate, dto.side, dto.mainPartyId, dto.selfPartyId, dto.productId, dto.marketRate, dto.brokerageRate);
     const row = await this.prisma.$transaction(async (tx) => {
       const dealNo = await this.numbering.next(user.companyId, 'DIRECT', tx);
       return tx.directDeal.create({
@@ -108,17 +132,10 @@ export class DirectDealService extends DealBaseService {
           companyId: user.companyId,
           dealNo,
           date: dto.date ? new Date(dto.date) : new Date(),
-          side: dto.side,
-          mainPartyId: dto.mainPartyId ?? null,
-          selfPartyId: dto.selfPartyId ?? null,
+          kind,
           productId: dto.productId ?? null,
-          quantity: dto.quantity,
+          quantity: qty,
           rate: dto.rate,
-          value,
-          marketRate,
-          mtm,
-          brokerageRate,
-          brokerageTotal,
           dueDate: dto.dueDate ? new Date(dto.dueDate) : null,
           paymentStatus: dto.paymentStatus ?? 'PENDING',
           tankerNo: dto.tankerNo ?? null,
@@ -126,6 +143,7 @@ export class DirectDealService extends DealBaseService {
           remarks: dto.remarks ?? null,
           createdById: user.id,
           updatedById: user.id,
+          ...modeData,
         },
       });
     });
@@ -133,31 +151,124 @@ export class DirectDealService extends DealBaseService {
     return this.get(user, row.id);
   }
 
+  /**
+   * PRINCIPAL leg: Self firm buys/sells. Requires a side, blocks overselling on
+   * SELL, and computes value / MTM / single brokerage. Broker fields are zeroed.
+   */
+  private async principalData(
+    companyId: string,
+    qty: number,
+    rate: number,
+    side: CreateDirectDealDto['side'],
+    mainPartyId: string | null | undefined,
+    selfPartyId: string | null | undefined,
+    productId: string | null | undefined,
+    marketRateInput: number | null | undefined,
+    brokerageRateInput: number | null | undefined,
+    excludeDealId?: string,
+  ) {
+    if (!side) throw new BadRequestException('Side (Buy/Sell) is required for a principal direct deal.');
+    if (side === 'SELL') {
+      await this.assertCanSell(companyId, selfPartyId, productId, qty, excludeDealId);
+    }
+    const marketRate = marketRateInput ?? (await this.resolveMarketRate(companyId, productId ?? undefined));
+    const brokerageRate = brokerageRateInput ?? 0;
+    return {
+      side,
+      mainPartyId: mainPartyId ?? null,
+      selfPartyId: selfPartyId ?? null,
+      buyerPartyId: null,
+      sellerPartyId: null,
+      value: r4(qty * rate),
+      marketRate,
+      mtm: r4((marketRate - rate) * qty),
+      brokerageRate,
+      brokerageTotal: r4(qty * brokerageRate),
+      buyerBrokerageRate: 0,
+      buyerBrokerageTotal: 0,
+      sellerBrokerageRate: 0,
+      sellerBrokerageTotal: 0,
+    };
+  }
+
+  /**
+   * BROKERAGE leg: no Self firm — a distinct external buyer & seller, each charged
+   * its own per-ton brokerage. We hold nothing, so value / MTM / market rate are 0
+   * and brokerageTotal is the combined income (buyer + seller).
+   */
+  private async brokerData(
+    companyId: string,
+    qty: number,
+    buyerPartyId: string | null | undefined,
+    sellerPartyId: string | null | undefined,
+    buyerBrokerageRate: number,
+    sellerBrokerageRate: number,
+  ) {
+    await this.assertBrokerParties(companyId, buyerPartyId, sellerPartyId);
+    const buyerBrokerageTotal = r4(qty * buyerBrokerageRate);
+    const sellerBrokerageTotal = r4(qty * sellerBrokerageRate);
+    return {
+      side: null,
+      mainPartyId: null,
+      selfPartyId: null,
+      buyerPartyId: buyerPartyId ?? null,
+      sellerPartyId: sellerPartyId ?? null,
+      value: 0,
+      marketRate: 0,
+      mtm: 0,
+      brokerageRate: 0,
+      brokerageTotal: r4(buyerBrokerageTotal + sellerBrokerageTotal),
+      buyerBrokerageRate,
+      buyerBrokerageTotal,
+      sellerBrokerageRate,
+      sellerBrokerageTotal,
+    };
+  }
+
   async update(user: RequestUser, id: string, dto: UpdateDirectDealDto, ctx: Ctx) {
     const before = await this.get(user, id);
+    const kind = dto.kind ?? before.kind;
     const qty = dto.quantity ?? Number(before.quantity);
     const rate = dto.rate ?? Number(before.rate);
-    const marketRate = dto.marketRate ?? Number(before.marketRate);
-    const brokerageRate = dto.brokerageRate ?? Number(before.brokerageRate);
-    // Overselling guard on the resulting deal (exclude this deal from the on-hand tally).
-    const side = dto.side ?? before.side;
-    if (side === 'SELL') {
-      const selfPartyId = dto.selfPartyId ?? before.selfPartyId;
-      const productId = dto.productId ?? before.productId;
-      await this.assertCanSell(user.companyId, selfPartyId, productId, qty, id);
-    }
+    // Recompute all mode-specific fields for the resulting kind (excludes this
+    // deal from the on-hand tally so an edit-in-place doesn't fail the guard).
+    const modeData =
+      kind === 'BROKERAGE'
+        ? await this.brokerData(
+            user.companyId,
+            qty,
+            dto.buyerPartyId ?? before.buyerPartyId,
+            dto.sellerPartyId ?? before.sellerPartyId,
+            dto.buyerBrokerageRate ?? Number(before.buyerBrokerageRate),
+            dto.sellerBrokerageRate ?? Number(before.sellerBrokerageRate),
+          )
+        : await this.principalData(
+            user.companyId,
+            qty,
+            rate,
+            dto.side ?? before.side,
+            dto.mainPartyId ?? before.mainPartyId,
+            dto.selfPartyId ?? before.selfPartyId,
+            dto.productId ?? before.productId,
+            dto.marketRate ?? Number(before.marketRate),
+            dto.brokerageRate ?? Number(before.brokerageRate),
+            id,
+          );
     const row = await this.prisma.directDeal.update({
       where: { id },
       data: {
-        ...dto,
+        kind,
         date: dto.date ? new Date(dto.date) : undefined,
+        productId: dto.productId ?? undefined,
+        quantity: qty,
+        rate,
         dueDate: dto.dueDate ? new Date(dto.dueDate) : undefined,
-        marketRate,
-        value: r4(qty * rate),
-        mtm: r4((marketRate - rate) * qty),
-        brokerageRate,
-        brokerageTotal: r4(qty * brokerageRate),
+        paymentStatus: dto.paymentStatus ?? undefined,
+        tankerNo: dto.tankerNo ?? undefined,
+        status: dto.status ?? undefined,
+        remarks: dto.remarks ?? undefined,
         updatedById: user.id,
+        ...modeData,
       },
     });
     await this.auditWrite(user, 'UPDATE', id, `Updated direct deal ${before.dealNo}`, ctx, AuditService.diff(before, row));

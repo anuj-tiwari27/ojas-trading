@@ -2,6 +2,7 @@ import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import {
   DealSide,
   DegumStatus,
+  DirectDealKind,
   DirectDealStatus,
   PaymentStatus,
 } from '@prisma/client';
@@ -22,19 +23,30 @@ import { PaginationQueryDto } from '../../common/dto/pagination.dto';
 //   Self firm's perspective. Brokerage is per-deal, per-ton.
 export class CreateDirectDealDto {
   @ApiPropertyOptional() @IsOptional() @IsDateString() date?: string;
-  @ApiProperty({ enum: DealSide }) @IsEnum(DealSide) side!: DealSide;
-  @ApiPropertyOptional({ description: 'Main (external) party' })
+  @ApiPropertyOptional({ enum: DirectDealKind, description: 'PRINCIPAL (Self firm) or BROKERAGE (buyer ↔ seller). Defaults to PRINCIPAL.' })
+  @IsOptional() @IsEnum(DirectDealKind) kind?: DirectDealKind;
+  @ApiPropertyOptional({ enum: DealSide, description: 'Required for PRINCIPAL deals (Self firm perspective); ignored for BROKERAGE.' })
+  @IsOptional() @IsEnum(DealSide) side?: DealSide;
+  @ApiPropertyOptional({ description: 'Main (external) party — PRINCIPAL only' })
   @IsOptional() @IsString() mainPartyId?: string;
-  @ApiPropertyOptional({ description: 'Our own (self) firm' })
+  @ApiPropertyOptional({ description: 'Our own (self) firm — PRINCIPAL only' })
   @IsOptional() @IsString() selfPartyId?: string;
+  @ApiPropertyOptional({ description: 'Buyer (external) party — BROKERAGE only' })
+  @IsOptional() @IsString() buyerPartyId?: string;
+  @ApiPropertyOptional({ description: 'Seller (external) party — BROKERAGE only' })
+  @IsOptional() @IsString() sellerPartyId?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() productId?: string;
 
   @ApiProperty() @Type(() => Number) @IsNumber() @Min(0) quantity!: number;
   @ApiProperty() @Type(() => Number) @IsNumber() @Min(0) rate!: number;
 
   @ApiPropertyOptional() @IsOptional() @Type(() => Number) @IsNumber() marketRate?: number;
-  @ApiPropertyOptional({ description: 'Brokerage ₹/MT' })
-  @IsOptional() @Type(() => Number) @IsNumber() brokerageRate?: number;
+  @ApiPropertyOptional({ description: 'Brokerage ₹/MT — PRINCIPAL only' })
+  @IsOptional() @Type(() => Number) @IsNumber() @Min(0) brokerageRate?: number;
+  @ApiPropertyOptional({ description: 'Buyer-side brokerage ₹/MT — BROKERAGE only' })
+  @IsOptional() @Type(() => Number) @IsNumber() @Min(0) buyerBrokerageRate?: number;
+  @ApiPropertyOptional({ description: 'Seller-side brokerage ₹/MT — BROKERAGE only' })
+  @IsOptional() @Type(() => Number) @IsNumber() @Min(0) sellerBrokerageRate?: number;
   @ApiPropertyOptional() @IsOptional() @IsDateString() dueDate?: string;
   @ApiPropertyOptional({ enum: PaymentStatus }) @IsOptional() @IsEnum(PaymentStatus) paymentStatus?: PaymentStatus;
   @ApiPropertyOptional() @IsOptional() @IsString() tankerNo?: string;
