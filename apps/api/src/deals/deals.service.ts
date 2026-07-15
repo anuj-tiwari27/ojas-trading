@@ -35,7 +35,8 @@ export class DirectDealService extends DealBaseService {
   protected defaultOrderBy = { createdAt: 'desc' as const }; // latest created on top
   protected dateField = 'date';
   protected hasSide = true;
-  protected sortableFields = ['dealNo', 'date', 'side', 'quantity', 'rate', 'value', 'marketRate', 'mtm', 'brokerageRate', 'brokerageTotal', 'dueDate', 'paymentStatus', 'status', 'createdAt'];
+  protected hasBrokerMode = true;
+  protected sortableFields = ['dealNo', 'date', 'side', 'quantity', 'rate', 'value', 'marketRate', 'mtm', 'brokerageRate', 'brokerageTotal', 'buyerBrokerageTotal', 'sellerBrokerageTotal', 'dueDate', 'paymentStatus', 'status', 'createdAt'];
 
   constructor(prisma: PrismaService, audit: AuditService, numbering: NumberingService) {
     super(prisma, audit, numbering);

@@ -48,6 +48,28 @@ export const SPEC_DIRECT: DealColSpec[] = [
   { header: 'Remarks', get: (r) => r.remarks ?? '', imp: { key: 'remarks', kind: 'string' } },
 ];
 
+// Broker rows are DirectDeals with kind=BROKERAGE: no side / main party / self firm,
+// and value / market rate / MTM are always 0 — so they get their own sheet shape.
+// Export only: no `imp` descriptors, so importing a broker sheet is not yet supported.
+export const SPEC_BROKER: DealColSpec[] = [
+  { header: 'Deal ID', get: (r) => r.dealNo },
+  { header: 'Date', get: (r) => d(r.date) },
+  { header: 'Buyer', get: (r) => r.buyerParty?.name ?? '' },
+  { header: 'Seller', get: (r) => r.sellerParty?.name ?? '' },
+  { header: 'Material', get: (r) => r.product?.code ?? '' },
+  { header: 'Qty (MT)', get: (r) => n(r.quantity) },
+  { header: 'Rate', get: (r) => n(r.rate) },
+  { header: 'Buyer Brokerage /MT', get: (r) => n(r.buyerBrokerageRate) },
+  { header: 'Seller Brokerage /MT', get: (r) => n(r.sellerBrokerageRate) },
+  { header: 'Buyer Brokerage', get: (r) => n(r.buyerBrokerageTotal) },
+  { header: 'Seller Brokerage', get: (r) => n(r.sellerBrokerageTotal) },
+  { header: 'Brokerage Total', get: (r) => n(r.brokerageTotal) },
+  { header: 'Due Date', get: (r) => d(r.dueDate) },
+  { header: 'Payment', get: (r) => r.paymentStatus },
+  { header: 'Status', get: (r) => r.status },
+  { header: 'Remarks', get: (r) => r.remarks ?? '' },
+];
+
 export const SPEC_DEGUM: DealColSpec[] = [
   { header: 'Deal ID', get: (r) => r.dealNo },
   { header: 'Date', get: (r) => d(r.dealDate), imp: { key: 'dealDate', kind: 'date' } },
@@ -72,16 +94,24 @@ export const SPEC_DEGUM: DealColSpec[] = [
   { header: 'Remarks', get: (r) => r.remarks ?? '', imp: { key: 'remarks', kind: 'string' } },
 ];
 
-export const SPECS: Record<'direct' | 'degum', DealColSpec[]> = { direct: SPEC_DIRECT, degum: SPEC_DEGUM };
+export type DealSpecKey = 'direct' | 'broker' | 'degum';
+
+export const SPECS: Record<DealSpecKey, DealColSpec[]> = { direct: SPEC_DIRECT, broker: SPEC_BROKER, degum: SPEC_DEGUM };
+
+const SHEET_NAME: Record<DealSpecKey, string> = {
+  direct: 'Direct Deals',
+  broker: 'Brokerage Deals',
+  degum: 'Degum Deals',
+};
 
 // ── Workbook build (export) ──────────────────────────────────────────────────
-export function buildDealWorkbook(type: 'direct' | 'degum', rows: any[]): Buffer {
+export function buildDealWorkbook(type: DealSpecKey, rows: any[]): Buffer {
   const cols = SPECS[type];
   const aoa = [cols.map((c) => c.header), ...rows.map((r) => cols.map((c) => c.get(r)))];
   const ws = XLSX.utils.aoa_to_sheet(aoa);
   ws['!cols'] = cols.map((c) => ({ wch: Math.max(10, c.header.length + 2) }));
   const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, type === 'direct' ? 'Direct Deals' : 'Degum Deals');
+  XLSX.utils.book_append_sheet(wb, ws, SHEET_NAME[type]);
   return XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' }) as Buffer;
 }
 

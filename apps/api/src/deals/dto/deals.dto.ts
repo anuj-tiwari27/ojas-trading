@@ -88,9 +88,15 @@ export class DealQueryDto extends PaginationQueryDto {
   @ApiPropertyOptional() @IsOptional() @IsString() paymentStatus?: string;
   @ApiPropertyOptional({ description: 'Direct deals only: BUY / SELL' })
   @IsOptional() @IsString() side?: string;
+  @ApiPropertyOptional({ enum: DirectDealKind, description: 'Direct deals only: PRINCIPAL / BROKERAGE' })
+  @IsOptional() @IsEnum(DirectDealKind) kind?: DirectDealKind;
   @ApiPropertyOptional() @IsOptional() @IsString() productId?: string;
   @ApiPropertyOptional({ description: 'Filter by Main party id' })
   @IsOptional() @IsString() mainPartyId?: string;
+  @ApiPropertyOptional({ description: 'Broker deals only: filter by Buyer party id' })
+  @IsOptional() @IsString() buyerPartyId?: string;
+  @ApiPropertyOptional({ description: 'Broker deals only: filter by Seller party id' })
+  @IsOptional() @IsString() sellerPartyId?: string;
   @ApiPropertyOptional({ description: 'Deal date from (inclusive)' })
   @IsOptional() @IsDateString() dateFrom?: string;
   @ApiPropertyOptional({ description: 'Deal date to (inclusive)' })

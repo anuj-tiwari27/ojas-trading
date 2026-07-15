@@ -82,6 +82,13 @@ function renderCell(value: any, fmt?: Fmt) {
 export default function DealTypePage() {
   const { type } = useParams<{ type: string }>();
   const cfg = findDeal(type);
+  if (!cfg) return notFound();
+  // Keyed on the tab: Direct and Brokerage share this route, so without a remount
+  // one tab's filters/sort/search would leak into the other's query.
+  return <DealTypeView key={type} type={type} cfg={cfg} />;
+}
+
+function DealTypeView({ type, cfg }: { type: string; cfg: DealType }) {
   const qc = useQueryClient();
 
   const [page, setPage] = useState(1);
@@ -103,25 +110,26 @@ export default function DealTypePage() {
 
   const params = useMemo(() => {
     const p: Record<string, any> = {};
+    // Direct & Brokerage share one endpoint — `kind` is what scopes each tab.
+    if (cfg.kind) p.kind = cfg.kind;
     if (search) p.search = search;
     if (sortBy) { p.sortBy = sortBy; p.sortDir = sortDir; }
     for (const [k, v] of Object.entries(filters)) if (v) p[k] = v;
     return p;
-  }, [search, sortBy, sortDir, filters]);
+  }, [cfg, search, sortBy, sortDir, filters]);
 
   const list = useQuery({
     queryKey: ['deal', type, page, params],
-    queryFn: () => apiGet<Paginated<any>>(cfg!.endpoint, { page, limit: 25, ...params }),
-    enabled: !!cfg,
+    queryFn: () => apiGet<Paginated<any>>(cfg.endpoint, { page, limit: 25, ...params }),
   });
 
   const save = useMutation({
     mutationFn: (payload: any) =>
-      editing ? apiPatch(`${cfg!.endpoint}/${editing.id}`, payload) : apiPost(cfg!.endpoint, payload),
+      editing ? apiPatch(`${cfg.endpoint}/${editing.id}`, payload) : apiPost(cfg.endpoint, payload),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ['deal', type] }); closeModal(); },
   });
   const remove = useMutation({
-    mutationFn: (id: string) => apiDelete(`${cfg!.endpoint}/${id}`),
+    mutationFn: (id: string) => apiDelete(`${cfg.endpoint}/${id}`),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['deal', type] }),
   });
 
@@ -133,14 +141,14 @@ export default function DealTypePage() {
   function clearFilters() { setFilters({}); setFilterLabels({}); setPage(1); }
   const activeFilters = Object.values(filters).filter(Boolean).length;
 
-  function openCreate() { setEditing(null); setForm(type === 'direct-deals' ? { kind: 'PRINCIPAL' } : {}); setOpen(true); }
-  function openEdit(row: any) { setEditing(row); setForm(rowToForm(cfg!, row)); setOpen(true); }
+  function openCreate() { setEditing(null); setForm({}); setOpen(true); }
+  function openEdit(row: any) { setEditing(row); setForm(rowToForm(cfg, row)); setOpen(true); }
   function closeModal() { setOpen(false); setEditing(null); setForm({}); }
 
   async function doExport() {
     setExporting(true);
     try {
-      const res = await api.get(`${cfg!.endpoint}/export`, { params, responseType: 'blob' });
+      const res = await api.get(`${cfg.endpoint}/export`, { params, responseType: 'blob' });
       const url = URL.createObjectURL(res.data as Blob);
       const a = document.createElement('a');
       a.href = url; a.download = `${type}.xlsx`; a.click();
@@ -157,7 +165,7 @@ export default function DealTypePage() {
     const fd = new FormData();
     fd.append('file', file);
     try {
-      const res = await api.post(`${cfg!.endpoint}/import`, fd);
+      const res = await api.post(`${cfg.endpoint}/import`, fd);
       const payload = (res.data?.data ?? res.data) as { imported: number };
       setImportResult({ imported: payload.imported });
       qc.invalidateQueries({ queryKey: ['deal', type] });
@@ -170,7 +178,6 @@ export default function DealTypePage() {
   }
 
   const columns = useMemo<ColumnDef<any, any>[]>(() => {
-    if (!cfg) return [];
     const cols: ColumnDef<any, any>[] = cfg.columns.map((c) => ({
       id: c.key,
       header: c.label,
@@ -217,14 +224,11 @@ export default function DealTypePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cfg]);
 
-  if (!cfg) return notFound();
-
   function submit() {
     const payload: Record<string, any> = {};
-    // Only submit fields currently visible — a hidden field (e.g. the other
-    // deal-type's inputs) must not leak a stale value into the payload.
-    for (const f of cfg!.fields) {
-      if (f.showWhen && !f.showWhen(form)) continue;
+    // The tab fixes the kind — it is never edited, only stamped on the payload.
+    if (cfg.kind) payload.kind = cfg.kind;
+    for (const f of cfg.fields) {
       const v = form[f.key];
       if (v === undefined || v === '') continue;
       if (f.bool) payload[f.key] = v === 'true';
@@ -239,12 +243,14 @@ export default function DealTypePage() {
       <input ref={fileRef} type="file" accept=".xlsx,.xls,.csv" className="hidden" onChange={onFile} />
       <PageHeader
         title={cfg.label}
-        description={`${list.data?.meta.total ?? 0} records · filter, sort, import & export`}
+        description={`${list.data?.meta.total ?? 0} records · filter, sort${cfg.canImport !== false ? ', import' : ''} & export`}
         actions={
           <>
-            <Button variant="outline" size="sm" onClick={() => fileRef.current?.click()}>
-              <Upload className="size-4" /> Import
-            </Button>
+            {cfg.canImport !== false && (
+              <Button variant="outline" size="sm" onClick={() => fileRef.current?.click()}>
+                <Upload className="size-4" /> Import
+              </Button>
+            )}
             <Button variant="outline" size="sm" onClick={doExport} disabled={exporting}>
               <Download className="size-4" /> {exporting ? 'Exporting…' : 'Export'}
             </Button>
@@ -348,7 +354,7 @@ export default function DealTypePage() {
         }
       >
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {cfg.fields.filter((f) => !f.showWhen || f.showWhen(form)).map((f) => {
+          {cfg.fields.map((f) => {
             const rel = editing?.[f.key.replace(/Id$/, '')];
             const selectedLabel = !rel ? undefined : f.ref === 'products' ? `${rel.code} — ${rel.name}` : rel.name;
             return (

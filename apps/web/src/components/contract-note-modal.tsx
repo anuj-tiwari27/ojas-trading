@@ -180,7 +180,8 @@ export function ContractNoteModal({
     const firmPhone = c?.phone ? `Phone : ${c.phone}` : '';
 
     const d = deal ?? {};
-    const isDirect = dealType === 'direct-deals';
+    // Both direct tabs render DirectDeal rows; degum deals are a different shape.
+    const isDirect = dealType === 'direct-deals' || dealType === 'brokerage-deals';
     const isBroker = isDirect && d.kind === 'BROKERAGE';
     // PRINCIPAL: BUY = Self buys from Main → Supplier is Main, Buyer is Self; SELL = reverse.
     // BROKERAGE: no self firm — Supplier is the Seller party, Buyer is the Buyer party.

@@ -54,10 +54,16 @@ export class DirectDealController {
   @Get() @RequirePermissions('directdeal:read')
   list(@CurrentUser() u: RequestUser, @Query() q: DealQueryDto) { return this.svc.list(u, q); }
 
+  // The Direct and Brokerage tabs share this route — `kind` picks the sheet shape.
   @Get('export') @RequirePermissions('directdeal:read')
   async export(@CurrentUser() u: RequestUser, @Query() q: DealQueryDto, @Res() res: Response) {
     const rows = await this.svc.exportAll(u, q);
-    sendWorkbook(res, buildDealWorkbook('direct', rows), 'direct-deals.xlsx');
+    const broker = q.kind === 'BROKERAGE';
+    sendWorkbook(
+      res,
+      buildDealWorkbook(broker ? 'broker' : 'direct', rows),
+      broker ? 'brokerage-deals.xlsx' : 'direct-deals.xlsx',
+    );
   }
 
   @Post('import') @RequirePermissions('directdeal:create')

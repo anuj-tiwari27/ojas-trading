@@ -2,6 +2,7 @@
 
 import {
   Anchor,
+  ArrowLeftRight,
   Database,
   Handshake,
   LayoutDashboard,
@@ -33,6 +34,7 @@ const NAV: { section: string; items: NavItem[] }[] = [
     section: 'Deals',
     items: [
       { label: 'Direct Deals', href: '/deals/direct-deals', icon: Handshake },
+      { label: 'Brokerage Deals', href: '/deals/brokerage-deals', icon: ArrowLeftRight },
       { label: 'Degum Deals', href: '/deals/degum-deals', icon: Anchor },
     ],
   },

@@ -33,6 +33,8 @@ export abstract class DealBaseService {
   protected dateField = 'createdAt';
   /** Whether this deal type has a `side` column (Direct only). */
   protected hasSide = false;
+  /** Whether this deal type has broker mode — a `kind` plus buyer/seller parties (Direct only). */
+  protected hasBrokerMode = false;
   /** Columns the client is allowed to sort by (guards against Prisma 500s). */
   protected sortableFields: string[] = ['createdAt'];
 
@@ -96,6 +98,11 @@ export abstract class DealBaseService {
     if (q.side && this.hasSide) where.side = q.side;
     if (q.productId) where.productId = q.productId;
     if (q.mainPartyId) where.mainPartyId = q.mainPartyId;
+    if (this.hasBrokerMode) {
+      if (q.kind) where.kind = q.kind;
+      if (q.buyerPartyId) where.buyerPartyId = q.buyerPartyId;
+      if (q.sellerPartyId) where.sellerPartyId = q.sellerPartyId;
+    }
     if (q.dateFrom || q.dateTo) {
       const range: any = {};
       if (q.dateFrom) range.gte = new Date(q.dateFrom);
